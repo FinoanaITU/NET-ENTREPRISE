@@ -92,8 +92,11 @@ class NetLog():
             (By.XPATH, '//*[@id="carousel"]/div/div/div[16]')))
         #click sur DUCS
         self.find_and_click('//*[@id="carousel"]/div/div/div[16]')
-        self.wait.until(EC.presence_of_element_located(
-            (By.XPATH, '//*[@id="AccrochageEFIEDIChoice"]')))
+
+        # self.wait.until(EC.presence_of_element_located(
+        #     (By.XPATH, '//*[@id="AccrochageEFIEDIChoice"]')))
+        self.wait.until(
+            lambda driver: utilFunctions.get_el_by_xpath(self.driver,'//*[@id="AccrochageEFIEDIChoice"]').is_displayed())
         time.sleep(2)
 
         element_table = utilFunctions.get_element_table(self.driver, BeautifulSoup, 'AccrochageEFIEDIChoice')
@@ -195,19 +198,40 @@ class NetLog():
         #click periode
         script = utilFunctions.script_link('a', periode)
         self.driver.execute_script(str(script), None)
-
-        print('miandry ----------------------#click periode')
-
-        self.wait.until(EC.presence_of_element_located(
-            (By.XPATH, '/html/body/div/div/table/tbody/tr[9]/td/img')))
-        
-        print('miandry ----------------------#ita sary')
-        #click sur continuer
-        self.find_and_click('/html/body/div/div/table/tbody/tr[9]/td/img')
-        print('miandry ----------------------#click sur continue')
-        self.wait.until(EC.presence_of_element_located(
-            (By.XPATH, '/html/body/div[3]/div/nav[2]/div/div[1]/div[2]/a/img')))
-        
+        time.sleep(5)
+        # if EC.presence_of_element_located((By.XPATH, '/ html/body/div/div/table/tbody/tr[9]/td/img')):
+        #     self.wait.until(EC.presence_of_element_located(
+        #         (By.XPATH, '/html/body/div/div/table/tbody/tr[9]/td/img')))
+        #     print('misy continue------------------------------')
+        #     #click sur continuer
+        #     self.find_and_click('/html/body/div/div/table/tbody/tr[9]/td/img')
+        self.wait.until(EC.url_contains('www.declaration.urssaf.fr'))
         return True
 
+    def downloadFile(self,doc_name,doc_type):
+        #entrer dans document
+        script = utilFunctions.script_link('a', doc_name)
+        self.driver.execute_script(str(script), None)
+        print('tafa attestation click ----------')
+        self.wait.until(EC.presence_of_element_located(
+            (By.XPATH, '//*[@id="typeAttestation"]')))
+
+        selectType = utilFunctions.script_link('select[id="typeAttestation"]',doc_type)
+        self.driver.execute_script(str(selectType))
+        print(' tafa slct ----------')
+
+        #click valider
+        utilFunctions.get_el_by_xpath(
+            self.driver, '/html/body/div[3]/div[2]/section[1]/div[3]/div[3]/div[2]/button').click()
+        print(' tafa valider ----------')
+        if utilFunctions.get_el_by_xpath(self.driver, '/html/body/div[3]/div[2]/section[1]/div[3]/div[9]/div').is_displayed():
+            print(' click modal ----------')
+            utilFunctions.get_el_by_xpath(
+                self.driver, '/html/body/div[3]/div[2]/section[1]/div[3]/div[9]/div/div/div[3]/button[1]').click()
+            time.sleep(5)
+        print(' vita click modal ----------')
+        #find all element int table
+        print(' lancer down ----------')
+        utilFunctions.get_el_by_xpath(self.driver,'/html/body/div[3]/div[2]/section[1]/div[3]/div[7]/div[2]/div/table/tbody/tr[1]/td[6]/a').click()
+        print(' vita down ----------')
         

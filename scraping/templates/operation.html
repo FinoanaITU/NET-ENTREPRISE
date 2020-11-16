@@ -90,21 +90,26 @@
                             <h4 class="card-title">Operation Urssaf {{urssaf_doc}}</h4>
                         </div>
                         <div class="card-body">
-                            <form action="#" method="POST">
+                            <form action="{{ config['BASE_URL '] }}/download" method="GET">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="exampleFormControlSelect1">Documents</label>
-                                        <select class="form-control" id="exampleFormControlSelect1">
+                                        <label for="document">Documents</label>
+                                        <select class="form-control" id="document" name="document">
                                             <option>Demander une attestation</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="exampleFormControlSelect1">Types</label>
-                                        <select class="form-control" id="exampleFormControlSelect1">
+                                        <label for="Types">Types</label>
+                                        <select class="form-control" id="Types" name="types">
                                             <option>Attestation de Vigilance</option>
                                         </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="update ml-auto mr-auto">
+                                        <button type="submit" class="btn btn-primary btn-round">Telecharger Document</button>
                                     </div>
                                 </div>
                             </form>

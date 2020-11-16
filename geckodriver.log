@@ -4392,9 +4392,11 @@ JavaScript error: resource://gre/modules/XULStore.jsm, line 66: Error: Can't fin
 console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
 1605527552514	Marionette	INFO	Listening on port 56631
 1605527552925	Marionette	WARN	TLS certificate errors will be ignored for this session
-console.error: Region.jsm: "Error fetching region" (new Abor1605527557149	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\CC2\\AppData\\Local\\Temp\\rust_mozprofilezzHfLG"
-JavaScript error: resource://gre/modules/XULStore.jsm, line 66: Error: Can't find profile directory.
-console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
+console.error: Region.jsm: "Error fetching region" (new Abor1605527557149	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\CC2\\A1605530050288	Marionette	INFO	Stopped listening on port 56631
+
+###!!! [Child][MessageChannel::SendAndWait] Error: Channel error: cannot send/recv
+
+le.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
 1605527560903	Marionette	INFO	Listening on port 56677
 1605527561005	Marionette	WARN	TLS certificate errors will be ignored for this session
 console.error: Region.jsm: "Error fetching region" (new AbortError("The operation was aborted. ", (void 0), 697))
@@ -4404,3 +4406,368 @@ TimedPromise/<@chrome://marionette/content/sync.js:245:13
 TimedPromise@chrome://marionette/content/sync.js:230:10
 interaction.flushEventLoop@chrome://marionette/content/interaction.js:416:10
 webdriverClickElement@chrome://marionette/content/interaction.js:182:31
+1605530049253	Marionette	INFO	Stopped listening on port 56677
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+
+###!!! [Child][MessageChannel::SendAndWait] Error: Channel error: cannot send/recv
+
+mp\\rust_mozprofile2lcqeK"
+JavaScript error: resource://gre/modules/XULStore.jsm, line 66: Error: Can't find profile directory.
+console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
+1605529689464	Marionette	INFO	Listening on port 57571
+1605529689710	Marionette	WARN	TLS certificate errors will be ignored for this session
+1605530048138	Marionette	INFO	Stopped listening on port 57571
+
+###!!! [Child][MessageChannel::SendAndWait] Error: Channel error: cannot send/recv
+
+firefox.exe" "--marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\CC2\\AppData\\Local\\Temp\\rust_mozprofileWuOkW7"
+JavaScript error: resource://gre/modules/XULStore.jsm, line 66: Error: Can't find profile directory.
+console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
+1605529842991	Marionette	INFO	Listening on port 57713
+1605529843437	Marionette	WARN	TLS certificate errors will be ignored for this session
+1605530044955	Marionette	INFO	Stopped listening on port 57713
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+
+###!!! [Child][MessageChannel::SendAndWait] Error: Channel error: cannot send/recv
+
+1605530063059	geckodriver	INFO	Listening on 127.0.0.1:57956
+1605530066083	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\CC2\\AppData\\Local\\Temp\\rust_mozprofile0bqeLj"
+JavaScript error: resource://gre/modules/XULStore.jsm, line 66: Error: Can't find profile directory.
+console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
+1605530069643	Marionette	INFO	Listening on port 57964
+1605530069906	Marionette	WARN	TLS certificate errors will be ignored for this session
+console.error: Region.jsm: "Error fetching region" (new AbortError("The operation was aborted. ", (void 0), 697))
+console.error: Region.jsm: "Failed to fetch region" (new Error("NO_RESULT", "resource://gre/modules/Region.jsm", 351))
+1605531125966	Marionette	INFO	Stopped listening on port 57964
+[Parent 1032, Gecko_IOThread] WARNING: pipe error: 232: file /builds/worker/checkouts/gecko/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 545
+" (new Error("", "(unknown module)"))
+1605530078165	Marionette	INFO	Listening on port 58010
+1605530078590	Marionette	WARN	TLS certificate errors will be ignored for this session
+console.error: Region.jsm: "Error fetching region" (new AbortError("The operation was aborted. ", (void 0), 697))
+console.error: Region.jsm: "Failed to fetch region" (new Error("NO_RESULT", "resource://gre/modules/Region.jsm", 351))
+JavaScript error: resource://gre/modules/URIFixup.jsm, line 271: NS_ERROR_FAILURE: Should pass a non-null uri
+1605531126995	Marionette	INFO	Stopped listening on port 58010
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+
+###!!! [Child][MessageChannel::SendAndWait] Error: Channel error: cannot send/recv
+
+mp\\rust_mozprofileu1VzJE"
+JavaScript error: resource://gre/modules/XULStore.jsm, line 66: Error: Can't find profile directory.
+console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
+1605530909189	Marionette	INFO	Listening on port 58432
+1605530909213	Marionette	WARN	TLS certificate errors will be ignored for this session
+1605531127543	Marionette	INFO	Stopped listening on port 58432
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+
+###!!! [Child][MessageChannel::SendAndWait] Error: Channel error: cannot send/recv
+
+mp\\rust_mozprofileZ4ReIb"
+JavaScript error: resource://gre/modules/XULStore.jsm, line 66: Error: Can't find profile directory.
+console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
+1605530918152	Marionette	INFO	Listening on port 58477
+1605530918603	Marionette	WARN	TLS certificate errors will be ignored for this session
+1605530977519	Marionette	INFO	Stopped listening on port 58477
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+
+###!!! [Child][MessageChannel::SendAndWait] Error: Channel error: cannot send/recv
+
+1605530988314	geckodriver	INFO	Listening on 127.0.0.1:58632
+1605530991317	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\CC2\\AppData\\Local\\Temp\\rust_mozprofile8jarGy"
+JavaScript error: resource://gre/modules/XULStore.jsm, line 66: Error: Can't find profile directory.
+console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
+1605530995806	Marionette	INFO	Listening on port 58640
+1605530996265	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: resource://gre/modules/URIFixup.jsm, line 271: NS_ERROR_FAILURE: Should pass a non-null uri
+1605531129139	Marionette	INFO	Stopped listening on port 58640
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+
+###!!! [Child][MessageChannel::SendAndWait] Error: Channel error: cannot send/recv
+
+mp\\rust_mozprofileC9npjo"
+JavaScript error: resource://gre/modules/XULStore.jsm, line 66: Error: Can't find profile directory.
+console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
+1605531119945	Marionette	INFO	Listening on port 58886
+1605531120162	Marionette	WARN	TLS certificate errors will be ignored for this session
+console.error: Region.jsm: "Error fetching region" (new AbortError("The operation was aborted. ", (void 0), 697))
+console.error: Region.jsm: "Failed to fetch region" (new Error("NO_RESULT", "resource://gre/modules/Region.jsm", 351))
+JavaScript error: resource://gre/modules/URIFixup.jsm, line 271: NS_ERROR_FAILURE: Should pass a non-null uri
+1605531252764	Marionette	INFO	Stopped listening on port 58886
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+
+###!!! [Child][MessageChannel::SendAndWait] Error: Channel error: cannot send/recv
+
+1605531260972	geckodriver	INFO	Listening on 127.0.0.1:59050
+1605531264016	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\CC2\\AppData\\Local\\Temp\\rust_mozprofilemI0NPa"
+JavaScript error: resource://gre/modules/XULStore.jsm, line 66: Error: Can't find profile directory.
+console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
+1605531267849	Marionette	INFO	Listening on port 59058
+1605531268371	Marionette	WARN	TLS certificate errors will be ignored for this session
+[Parent 14516, Gecko_IOThread] WARNING: file /builds/worker/checkouts/gecko/ipc/chromium/src/base/process_util_win.cc, line 166
+1605531831768	Marionette	INFO	Stopped listening on port 59058
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+
+###!!! [Child][MessageChannel::SendAndWait] Error: Channel error: cannot send/recv
+
+console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
+1605531276194	Marionette	INFO	Listening on port 59104
+1605531276470	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: resource://gre/modules/URIFixup.jsm, line 271: NS_ERROR_FAILURE: Should pass a non-null uri
+JavaScript error: https://mon.urssaf.fr//js/urssafmenutools.min.js?v=9fe4e1ffae5c2e1c798b264c0fc27017, line 9: TypeError: n is undefined
+1605531831310	Marionette	INFO	Stopped listening on port 59104
+
+###!!! [Child][MessageChannel::SendAndWait] Error: Channel error: cannot send/recv
+
+firefox.exe" "--marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\CC2\\AppData\\Local\\Temp\\rust_mozprofileG2URtA"
+JavaScript error: resource://gre/modules/XULStore.jsm, line 66: Error: Can't find profile directory.
+console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
+1605531639509	Marionette	INFO	Listening on port 59373
+1605531640014	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: https://mon.urssaf.fr//js/urssafmenutools.min.js?v=9fe4e1ffae5c2e1c798b264c0fc27017, line 9: TypeError: n is undefined
+JavaScript error: https://mon.urssaf.fr//js/urssafmenutools.min.js?v=9fe4e1ffae5c2e1c798b264c0fc27017, line 9: TypeError: n is undefined
+1605531830368	Marionette	INFO	Stopped listening on port 59373
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+
+###!!! [Child][MessageChannel::SendAndWait] Error: Channel error: cannot send/recv
+
+1605531891778	geckodriver	INFO	Listening on 127.0.0.1:59657
+1605531894821	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\CC2\\AppData\\Local\\Temp\\rust_mozprofileMpSsjc"
+JavaScript error: resource://gre/modules/XULStore.jsm, line 66: Error: Can't find profile directory.
+console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
+1605531898529	Marionette	INFO	Listening on port 59667
+1605531898705	Marionette	WARN	TLS certificate errors will be ignored for this session
+console.error: Region.jsm: "Error fetching region" (new AbortError("The operation was aborted. ", (void 0), 697))
+console.error: Region.jsm: "Failed to fetch region" (new Error("NO_RESULT", "resource://gre/modules/Region.jsm", 351))
+JavaScript error: resource://gre/modules/URIFixup.jsm, line 271: NS_ERROR_FAILURE: Should pass a non-null uri
+1605531923775	Marionette	INFO	Stopped listening on port 59667
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+
+###!!! [Child][MessageChannel::SendAndWait] Error: Channel error: cannot send/recv
+
+1605531927210	geckodriver	INFO	Listening on 127.0.0.1:59718
+1605531930264	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\CC2\\AppData\\Local\\Temp\\rust_mozprofilegPzrDG"
+JavaScript error: resource://gre/modules/XULStore.jsm, line 66: Error: Can't find profile directory.
+console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
+1605531934608	Marionette	INFO	Listening on port 59726
+1605531934644	Marionette	WARN	TLS certificate errors will be ignored for this session
+console.error: Region.jsm: "Error fetching region" (new Abor1605531938938	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\CC2\\AJavaScript error: resource://gre/modules/URIFixup.jsm, line 271: NS_ERROR_FAILURE: Should pass a non-null uri
+[Parent 10688, Gecko_IOThread] WARNING: file /builds/worker/checkouts/gecko/ipc/chromium/src/base/process_util_win.cc, line 166
+1605531964101	Marionette	INFO	Stopped listening on port 59726
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+
+###!!! [Child][MessageChannel::SendAndWait] Error: Channel error: cannot send/recv
+
+", (void 0), 697))
+console.error: Region.jsm: "Failed to fetch region" (new Error("NO_RESULT", "resource://gre/modules/Region.jsm", 351))
+JavaScript error: resource://gre/modules/URIFixup.jsm, line 271: NS_ERROR_FAILURE: Should pass a non-null uri
+JavaScript error: https://mon.urssaf.fr//js/urssafmenutools.min.js?v=9fe4e1ffae5c2e1c798b264c0fc27017, line 9: TypeError: n is undefined
+JavaScript error: https://mon.urssaf.fr//js/urssafmenutools.min.js?v=9fe4e1ffae5c2e1c798b264c0fc27017, line 9: TypeError: n is undefined
+JavaScript error: https://mon.urssaf.fr//js/urssafmenutools.min.js?v=9fe4e1ffae5c2e1c798b264c0fc27017, line 9: TypeError: n is undefined
+JavaScript error: https://mon.urssaf.fr//js/urssafmenutools.min.js?v=9fe4e1ffae5c2e1c798b264c0fc27017, line 9: TypeError: n is undefined
+JavaScript error: https://mon.urssaf.fr//js/urssafmenutools.min.js?v=9fe4e1ffae5c2e1c798b264c0fc27017, line 9: TypeError: n is undefined
+JavaScript error: https://mon.urssaf.fr//js/urssafmenutools.min.js?v=9fe4e1ffae5c2e1c798b264c0fc27017, line 9: TypeError: n is undefined
+1605532722059	Marionette	INFO	Stopped listening on port 59766
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+
+###!!! [Child][MessageChannel::SendAndWait] Error: Channel error: cannot send/recv
+
+mp\\rust_mozprofilecBZHZC"
+JavaScript error: resource://gre/modules/XULStore.jsm, line 66: Error: Can't find profile directory.
+console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
+1605532223273	Marionette	INFO	Listening on port 60087
+1605532721227	Marionette	INFO	Stopped listening on port 60087
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+
+###!!! [Child][MessageChannel::SendAndWait] Error: Channel error: cannot send/recv
+
+mp\\rust_mozprofiler2KIPk"
+JavaScript error: resource://gre/modules/XULStore.jsm, line 66: Error: Can't find profile directory.
+console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
+1605532297374	Marionette	INFO	Listening on port 60141
+1605532297637	Marionette	WARN	TLS certificate errors will be ignored for this session
+1605532720588	Marionette	INFO	Stopped listening on port 60141
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+
+###!!! [Child][MessageChannel::SendAndWait] Error: Channel error: cannot send/recv
+
+mp\\rust_mozprofilelgPt7p"
+JavaScript error: resource://gre/modules/XULStore.jsm, line 66: Error: Can't find profile directory.
+console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
+1605532306545	Marionette	INFO	Listening on port 60189
+1605532306716	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: https://mon.urssaf.fr//js/urssafmenutools.min.js?v=9fe4e1ffae5c2e1c798b264c0fc27017, line 9: TypeError: n is undefined
+JavaScript error: https://mon.urssaf.fr//js/urssafmenutools.min.js?v=9fe4e1ffae5c2e1c798b264c0fc27017, line 9: TypeError: n is undefined
+JavaScript error: https://mon.urssaf.fr//js/urssafmenutools.min.js?v=9fe4e1ffae5c2e1c798b264c0fc27017, line 9: TypeError: n is undefined
+1605532716236	Marionette	INFO	Stopped listening on port 60189
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+
+###!!! [Child][MessageChannel::SendAndWait] Error: Channel error: cannot send/recv
+
+1605532824880	geckodriver	INFO	Listening on 127.0.0.1:60597
+1605532827927	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\CC2\\AppData\\Local\\Temp\\rust_mozprofileKUFbIq"
+JavaScript error: resource://gre/modules/XULStore.jsm, line 66: Error: Can't find profile directory.
+console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
+1605532831922	Marionette	INFO	Listening on port 60605
+1605532832277	Marionette	WARN	TLS certificate errors will be ignored for this session
+1605536034255	Marionette	INFO	Stopped listening on port 60605
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+
+###!!! [Child][MessageChannel::SendAndWait] Error: Channel error: cannot send/recv
+
+mp\\rust_mozprofileGbhxw8"
+JavaScript error: resource://gre/modules/XULStore.jsm, line 66: Error: Can't find profile directory.
+console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
+1605532840299	Marionette	INFO	Listening on port 60653
+1605532840524	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: https://mon.urssaf.fr//js/urssafmenutools.min.js?v=9fe4e1ffae5c2e1c798b264c0fc27017, line 9: TypeError: n is undefined
+JavaScript error: https://mon.urssaf.fr//js/urssafmenutools.min.js?v=9fe4e1ffae5c2e1c798b264c0fc27017, line 9: TypeError: n is undefined
+JavaScript error: https://mon.urssaf.fr//js/urssafmenutools.min.js?v=9fe4e1ffae5c2e1c798b264c0fc27017, line 9: TypeError: n is undefined
+JavaScript error: https://mon.urssaf.fr//js/urssafmenutools.min.js?v=9fe4e1ffae5c2e1c798b264c0fc27017, line 9: TypeError: n is undefined
+JavaScript error: https://mon.urssaf.fr//js/urssafmenutools.min.js?v=9fe4e1ffae5c2e1c798b264c0fc27017, line 9: TypeError: n is undefined
+JavaScript error: https://mon.urssaf.fr//js/urssafmenutools.min.js?v=9fe4e1ffae5c2e1c798b264c0fc27017, line 9: TypeError: n is undefined
+JavaScript error: https://mon.urssaf.fr//js/urssafmenutools.min.js?v=9fe4e1ffae5c2e1c798b264c0fc27017, line 9: TypeError: n is undefined
+JavaScript error: https://mon.urssaf.fr//js/urssafmenutools.min.js?v=9fe4e1ffae5c2e1c798b264c0fc27017, line 9: TypeError: n is undefined
+JavaScript error: https://mon.urssaf.fr//js/urssafmenutools.min.js?v=9fe4e1ffae5c2e1c798b264c0fc27017, line 9: TypeError: n is undefined
+JavaScript error: https://www.declaration.urssaf.fr/js/jquery.smartmenus.min.js, line 436: TypeError: this.activatedItems[e] is undefined
+JavaScript error: https://www.declaration.urssaf.fr/js/jquery.smartmenus.min.js, line 436: TypeError: this.activatedItems[e] is undefined
+JavaScript error: https://www.declaration.urssaf.fr/js/jquery.smartmenus.min.js, line 436: TypeError: this.activatedItems[e] is undefined
+JavaScript error: https://www.declaration.urssaf.fr/js/jquery.smartmenus.min.js, line 436: TypeError: this.activatedItems[e] is undefined
+JavaScript error: https://www.dcl.urssaf.fr/messagerie/Attestations.action#0, line 705: SyntaxError: "" string literal contains an unescaped line break
+JavaScript error: https://www.dcl.urssaf.fr/static_dcl/js/jquery.smartmenus.min.js, line 436: TypeError: this.activatedItems[e] is undefined
+JavaScript error: https://www.dcl.urssaf.fr/messagerie/Attestations.action#0, line 705: SyntaxError: "" string literal contains an unescaped line break
+JavaScript error: https://www.dcl.urssaf.fr/static_dcl/js/jquery.smartmenus.min.js, line 436: TypeError: this.activatedItems[e] is undefined
+JavaScript error: https://www.dcl.urssaf.fr/messagerie/Attestations.action#0, line 705: SyntaxError: "" string literal contains an unescaped line break
+JavaScript error: resource://devtools/client/inspector/rules/utils/utils.js, line 192: TypeError: rule is undefined
+JavaScript error: resource://devtools/client/inspector/rules/utils/utils.js, line 192: TypeError: rule is undefined
+JavaScript error: resource://devtools/client/inspector/rules/utils/utils.js, line 192: TypeError: rule is undefined
+JavaScript error: https://www.dcl.urssaf.fr/static_dcl/js/jquery.smartmenus.min.js, line 436: TypeError: this.activatedItems[e] is undefined
+JavaScript error: https://www.dcl.urssaf.fr/static_dcl/js/jquery.smartmenus.min.js, line 436: TypeError: this.activatedItems[e] is undefined
+JavaScript error: resource://devtools/client/inspector/rules/utils/utils.js, line 186: TypeError: rule is undefined
+JavaScript error: resource://devtools/client/inspector/rules/utils/utils.js, line 186: TypeError: rule is undefined
+JavaScript error: resource://devtools/client/inspector/rules/utils/utils.js, line 186: TypeError: rule is undefined
+IPDL protocol error: Handler returned error code!
+
+###!!! [Parent][DispatchAsyncMessage] Error: PLayerTransaction::Msg_ReleaseLayer Processing error: message was deserialized, but the handler returned false (indicating failure)
+
+IPDL protocol error: Handler returned error code!
+
+###!!! [Parent][DispatchAsyncMessage] Error: PLayerTransaction::Msg_ReleaseLayer Processing error: message was deserialized, but the handler returned false (indicating failure)
+
+IPDL protocol error: Handler returned error code!
+
+###!!! [Parent][DispatchAsyncMessage] Error: PLayerTransaction::Msg_ReleaseLayer Processing error: message was deserialized, but the handler returned false (indicating failure)
+
+IPDL protocol error: Handler returned error code!
+
+###!!! [Parent][DispatchAsyncMessage] Error: PLayerTransaction::Msg_ReleaseLayer Processing error: message was deserialized, but the handler returned false (indicating failure)
+
+IPDL protocol error: Handler returned error code!
+
+###!!! [Parent][DispatchAsyncMessage] Error: PLayerTransaction::Msg_ReleaseLayer Processing error: message was deserialized, but the handler returned false (indicating failure)
+
+1605536033416	Marionette	INFO	Stopped listening on port 60653
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+
+###!!! [Child][MessageChannel::SendAndWait] Error: Channel error: cannot send/recv
+
+1605536204289	geckodriver	INFO	Listening on 127.0.0.1:64090
+1605536207329	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\CC2\\AppData\\Local\\Temp\\rust_mozprofileQdGBGT"
+JavaScript error: resource://gre/modules/XULStore.jsm, line 66: Error: Can't find profile directory.
+console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
+1605536210798	Marionette	INFO	Listening on port 64100
+1605536211186	Marionette	WARN	TLS certificate errors will be ignored for this session
+1605536212408	geckodriver	INFO	Listening on 127.0.0.1:64137
+1605536215441	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\CC2\\AppData\\Local\\Temp\\rust_mozprofileyKsHqW"
+JavaScript error: resource://gre/modules/XULStore.jsm, line 66: Error: Can't find profile directory.
+console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
+1605536219666	Marionette	INFO	Listening on port 64151
+1605536219803	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: resource://gre/modules/URIFixup.jsm, line 271: NS_ERROR_FAILURE: Should pass a non-null uri
+1605536270273	Marionette	WARN	TimedPromise timed out after 500 ms: stacktrace:
+TimedPromise/<@chrome://marionette/content/sync.js:245:13
+TimedPromise@chrome://marionette/content/sync.js:230:10
+interaction.flushEventLoop@chrome://marionette/content/interaction.js:416:10
+webdriverClickElement@chrome://marionette/content/interaction.js:182:31
+1605536484557	geckodriver	INFO	Listening on 127.0.0.1:64638
+1605536487619	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\CC2\\AppData\\Local\\Temp\\rust_mozprofilezDI3ft"
+JavaScript error: resource://gre/modules/XULStore.jsm, line 66: Error: Can't find profile directory.
+console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
+1605536491955	Marionette	INFO	Listening on port 64650
+1605536491997	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: https://mon.urssaf.fr//js/urssafmenutools.min.js?v=9fe4e1ffae5c2e1c798b264c0fc27017, line 9: TypeError: n is undefined
+JavaScript error: https://mon.urssaf.fr//js/urssafmenutools.min.js?v=9fe4e1ffae5c2e1c798b264c0fc27017, line 9: TypeError: n is undefined
+JavaScript error: https://mon.urssaf.fr//js/urssafmenutools.min.js?v=9fe4e1ffae5c2e1c798b264c0fc27017, line 9: TypeError: n is undefined
+JavaScript error: https://mon.urssaf.fr//js/urssafmenutools.min.js?v=9fe4e1ffae5c2e1c798b264c0fc27017, line 9: TypeError: n is undefined
+JavaScript error: https://mon.urssaf.fr//js/urssafmenutools.min.js?v=9fe4e1ffae5c2e1c798b264c0fc27017, line 9: TypeError: n is undefined
+1605536802511	geckodriver	INFO	Listening on 127.0.0.1:65208
+1605536805544	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\CC2\\AppData\\Local\\Temp\\rust_mozprofileXkLmXh"
+JavaScript error: resource://gre/modules/XULStore.jsm, line 66: Error: Can't find profile directory.
+console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
+1605536810294	Marionette	INFO	Listening on port 65218
+1605536810493	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: resource://gre/modules/URIFixup.jsm, line 271: NS_ERROR_FAILURE: Should pass a non-null uri
+1605537079006	geckodriver	INFO	Listening on 127.0.0.1:49357
+1605537082048	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\CC2\\AppData\\Local\\Temp\\rust_mozprofileR5yvAw"
+JavaScript error: resource://gre/modules/XULStore.jsm, line 66: Error: Can't find profile directory.
+console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
+1605537087864	Marionette	INFO	Listening on port 49367
+1605537088161	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: resource://gre/modules/URIFixup.jsm, line 271: NS_ERROR_FAILURE: Should pass a non-null uri
+JavaScript error: https://mon.urssaf.fr//js/urssafmenutools.min.js?v=9fe4e1ffae5c2e1c798b264c0fc27017, line 9: TypeError: n is undefined
+JavaScript error: https://mon.urssaf.fr//js/urssafmenutools.min.js?v=9fe4e1ffae5c2e1c798b264c0fc27017, line 9: TypeError: n is undefined
+JavaScript error: https://mon.urssaf.fr//js/urssafmenutools.min.js?v=9fe4e1ffae5c2e1c798b264c0fc27017, line 9: TypeError: n is undefined
+JavaScript error: https://mon.urssaf.fr//js/urssafmenutools.min.js?v=9fe4e1ffae5c2e1c798b264c0fc27017, line 9: TypeError: n is undefined
+1605537218714	geckodriver	INFO	Listening on 127.0.0.1:49729
+1605537221793	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\CC2\\AppData\\Local\\Temp\\rust_mozprofilesARQMK"
+JavaScript error: resource://gre/modules/XULStore.jsm, line 66: Error: Can't find profile directory.
+console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
+1605537226276	Marionette	INFO	Listening on port 49743
+1605537226761	Marionette	WARN	TLS certificate errors will be ignored for this session
+console.error: Region.jsm: "Error fetching region" (new AbortError("The operation was aborted. ", (void 0), 697))
+console.error: Region.jsm: "Failed to fetch region" (new Error("NO_RESULT", "resource://gre/modules/Region.jsm", 351))
+JavaScript error: resource://gre/modules/URIFixup.jsm, line 271: NS_ERROR_FAILURE: Should pass a non-null uri
+JavaScript error: https://mon.urssaf.fr//js/urssafmenutools.min.js?v=9fe4e1ffae5c2e1c798b264c0fc27017, line 9: TypeError: n is undefined
+JavaScript error: https://mon.urssaf.fr//js/urssafmenutools.min.js?v=9fe4e1ffae5c2e1c798b264c0fc27017, line 9: TypeError: n is undefined
+JavaScript error: https://mon.urssaf.fr//js/urssafmenutools.min.js?v=9fe4e1ffae5c2e1c798b264c0fc27017, line 9: TypeError: n is undefined
+JavaScript error: https://mon.urssaf.fr//js/urssafmenutools.min.js?v=9fe4e1ffae5c2e1c798b264c0fc27017, line 9: TypeError: n is undefined
+JavaScript error: https://www.dcl.urssaf.fr/messagerie/Attestations.action#0, line 705: SyntaxError: "" string literal contains an unescaped line break
+1605537463687	Marionette	INFO	Stopped listening on port 49743
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+
+###!!! [Child][MessageChannel::SendAndWait] Error: Channel error: cannot send/recv
+

@@ -47,3 +47,14 @@ def toUrssaf(periode):
     log_urssaf = NetLog(driver).to_urssaf(periode,siren_gl)
     if log_urssaf:
         return render_template('operation.html', listEntreprise=list_entreprise_gl, listeDoc=list_doc_gl, urssaf_doc=periode)
+
+
+@app.route('/download', methods=['GET', 'POST'])
+def download():
+    print(request.args)
+    doc = request.args['document']
+    type = request.args['types']
+    print(doc)
+    print(type)
+    NetLog(driver).downloadFile(doc,type)
+    return 'mandeha down'
