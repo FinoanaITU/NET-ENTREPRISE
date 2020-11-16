@@ -1,0 +1,120 @@
+{% extends 'base.html' %} {% block navList %}
+<li class="active ">
+    <a href="#">
+        <i class="nc-icon nc-settings-gear-65"></i>
+        <p>Operation</p>
+    </a>
+</li>
+{% endblock %} {% block content %}
+<div class="content">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Choix de l'entreprise</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive choix-entreprise">
+                            <table class="table">
+                                <thead class=" text-primary">
+                                    <th>
+                                        N° Siren
+                                    </th>
+                                    <th>
+                                        Raison sociale
+                                    </th>
+                                </thead>
+                                <tbody>
+                                    {% for entreprise in listEntreprise %}
+                                    <tr>
+                                        <td>
+                                            <a href="{{ config['BASE_URL '] }}/doc_urssaf/{{ entreprise.siren}}">{{ entreprise.siren}}</a>
+                                        </td>
+                                        <td>
+                                            {{entreprise.raison_social}}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% if listeDoc != 0 %}
+            <div class="col-md-6">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">URSSAF ILE DE FRANCE</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead class=" text-primary">
+                                        <th>
+                                            Période
+                                        </th>
+                                        <th>
+                                            Nulméro interne
+                                        </th>
+                                        <th>
+                                            Date limite
+                                        </th>
+                                    </thead>
+                                    <tbody>
+                                        {% for doc in listeDoc %}
+                                        <tr>
+                                            <td>
+                                                <a href="{{ config['BASE_URL '] }}/to_urrsaf/{{ doc.periode}}">{{ doc.periode}}</a>
+                                            </td>
+                                            <td>
+                                                {{doc.numero}}
+                                            </td>
+                                            <td>
+                                                {{doc.date_limite}}
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% if urssaf_doc: %}
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Operation Urssaf {{urssaf_doc}}</h4>
+                        </div>
+                        <div class="card-body">
+                            <form action="#" method="POST">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="exampleFormControlSelect1">Documents</label>
+                                        <select class="form-control" id="exampleFormControlSelect1">
+                                            <option>Demander une attestation</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="exampleFormControlSelect1">Types</label>
+                                        <select class="form-control" id="exampleFormControlSelect1">
+                                            <option>Attestation de Vigilance</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
