@@ -1,5 +1,6 @@
 from typing import Counter
 from bs4.element import Script
+from selenium.common.exceptions import ElementNotInteractableException
 
 from selenium.webdriver.common import service
 from .utils.utilFunctions import utilFunctions
@@ -20,13 +21,10 @@ class NetLog():
         
 
     def run_login(self, urlPage, userNom, userPrenom, siret, password):
-        self.options = Options()
-        # self.options.add_argument('--headless')
-        # self.driver = webdriver.Firefox(options=self.options)
-        
         self.connection_execut(urlPage)
         self.wait.until(EC.presence_of_all_elements_located(
             (By.XPATH, '//*[@id="masthead"]/div[2]/div/div')))
+        time.sleep(2)
         utilFunctions.get_el_by_xpath(
             self.driver,'//*[@id="masthead"]/div[1]/div/div/div[2]/div[1]').click()
         self.fill_acompt_login(userNom, userPrenom, siret,password)
@@ -88,6 +86,12 @@ class NetLog():
         self.find_and_click('/html/body/div/div/table/tbody/tr[9]/td/img')
 
     def list_services(self):
+        if utilFunctions.find_exist(self.driver, '//*[@id="widget-base-de-co"]/div/div[1]') and utilFunctions.get_el_by_xpath(self.driver,'//*[@id="widget-base-de-co"]/div/div[1]').is_displayed():
+            try:
+                utilFunctions.get_el_by_xpath(self.driver, '//*[@id="widget-base-de-co"]/div/div[1]').click()
+            except ElementNotInteractableException:
+                self.list_services()
+                   
         self.wait.until(EC.presence_of_element_located(
             (By.XPATH, '//*[@id="carousel"]/div/div/div[16]')))
         #click sur DUCS
@@ -113,6 +117,8 @@ class NetLog():
         return services_list
 
     def list_entreprise(self,service):
+        if utilFunctions.find_exist(self.driver, '//*[@id="widget-base-de-co"]/div/div[1]'):
+            utilFunctions.get_el_by_xpath(self.driver, '//*[@id="widget-base-de-co"]/div/div[1]').click()
         #click sur DUCS
         self.find_and_click('//*[@id="carousel"]/div/div/div[16]')
 
@@ -191,8 +197,8 @@ class NetLog():
         script = utilFunctions.script_link('a', siren)
         self.driver.execute_script(str(script), None)
         
-        self.wait.until(EC.presence_of_element_located(
-            (By.XPATH, '//*[@id="TdBDeclaUrssaf"]')))
+        self.wait.until(EC.element_to_be_clickable(
+            (By.XPATH, '/html/body/table/tbody/tr[3]/td[2]/div[8]/table/thead/tr/th[1]/span/a')))
         time.sleep(2)
 
         #click periode
@@ -208,13 +214,26 @@ class NetLog():
         self.wait.until(EC.url_contains('www.declaration.urssaf.fr'))
         return True
 
-    def downloadFile(self,doc_name,doc_type):
+    def initialise_downloadFile(self,doc_name,doc_type):
+        self.wait.until(EC.presence_of_element_located(
+            (By.XPATH, '//*[@id="navbar-blue"]')))
+
         #entrer dans document
         script = utilFunctions.script_link('a', doc_name)
         self.driver.execute_script(str(script), None)
         print('tafa attestation click ----------')
+        time.sleep(2)
         self.wait.until(EC.presence_of_element_located(
-            (By.XPATH, '//*[@id="typeAttestation"]')))
+                (By.XPATH, '/html/body/div[3]/div[2]/section[1]/h2')))
+        if utilFunctions.find_exist(self.driver,'/html/body/div[3]/div[2]/section[1]/div[3]/div[3]/div[2]/button'):
+            self.execut_download(doc_type)
+        else:
+            utilFunctions.get_el_by_xpath(self.driver,'/html/body/div[3]/div[2]/section[1]/section/div[3]/div/button').click()
+            self.initialise_downloadFile(doc_name,doc_type)
+        
+    def execut_download(self,doc_type):
+        self.wait.until(EC.presence_of_element_located(
+                (By.XPATH, '//*[@id="typeAttestation"]')))
 
         selectType = utilFunctions.script_link('select[id="typeAttestation"]',doc_type)
         self.driver.execute_script(str(selectType))
@@ -233,5 +252,4 @@ class NetLog():
         #find all element int table
         print(' lancer down ----------')
         utilFunctions.get_el_by_xpath(self.driver,'/html/body/div[3]/div[2]/section[1]/div[3]/div[7]/div[2]/div/table/tbody/tr[1]/td[6]/a').click()
-        print(' vita down ----------')
-        
+        print(' vita down ----------')     

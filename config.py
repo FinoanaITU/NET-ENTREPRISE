@@ -9,4 +9,5 @@ PASSWORD = 'Sda.std92'
 
 BASE_URL = 'http://127.0.0.1:5000/'
 
+PATH_FILE = 'D:\\Perso'
 basedir = os.path.abspath(os.path.dirname(__file__))

@@ -1,5 +1,7 @@
 import sys
 
+from selenium.common.exceptions import NoSuchElementException
+
 class utilFunctions():
     
     def get_el_by_xpath(driver,xpath):
@@ -33,4 +35,11 @@ class utilFunctions():
         script = "var listLienPage = document.querySelectorAll('"+tag+"'); listLienPage.forEach(function(element) {if (element.textContent ==='" + \
             textContent+"') {element.click()}})"
 
-        return script    
+        return script
+
+    def find_exist(driver,xpath):
+        try:
+            driver.find_element_by_xpath(xpath)
+        except NoSuchElementException:
+            return False
+        return True
