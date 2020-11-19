@@ -5,6 +5,7 @@ from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.firefox.firefox_profile import FirefoxProfile
 from selenium.common.exceptions import ElementNotInteractableException
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 import os
 
 app = Flask(__name__)
@@ -25,6 +26,9 @@ def index():
     options = Options()
     options.add_argument('--headless')
 
+    cap = DesiredCapabilities().FIREFOX
+    cap["marionette"] = False
+
     fp = webdriver.FirefoxProfile()
     fp.set_preference("browser.download.folderList", 2)
     fp.set_preference('browser.download.dir', app.config['PATH_FILE'])
@@ -42,7 +46,7 @@ def index():
 
     # with Display():
     driver = webdriver.Firefox(executable_path=os.environ.get(
-        "GECKODRIVER_PATH"), firefox_profile=fp, options=options)
+        "GECKODRIVER_PATH"), firefox_profile=fp, capabilities=cap, options=options)
     try:
         login = NetLog(driver).run_login(app.config['URL_PAGE'], app.config['USER_FIRST_NAME'],
                                          app.config['USER_LAST_NAME'], app.config['SIRET'], app.config['PASSWORD'])
