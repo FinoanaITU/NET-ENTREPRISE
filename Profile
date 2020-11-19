@@ -1,0 +1,2 @@
+web: gunicorn scraping:app
+inti: FLASK_APP=run.py 
