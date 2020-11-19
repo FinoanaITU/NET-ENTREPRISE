@@ -6,6 +6,7 @@ from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.firefox.firefox_profile import FirefoxProfile
 from selenium.common.exceptions import ElementNotInteractableException
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
 import os
 
 app = Flask(__name__)
@@ -44,12 +45,12 @@ def index():
     fp.set_preference("plugin.scan.Acrobat", "99.0")
     fp.set_preference("plugin.scan.plid.all", False)
 
+    binary = FirefoxBinary(os.environ.get("FIREFOX_BIN"))
+
     # with Display():
-    driver = webdriver.Firefox(executable_path=os.environ.get(
-        "GECKODRIVER_PATH"), firefox_profile=fp, capabilities=cap, options=options)
+    driver = webdriver.Firefox(executable_path=os.environ.get("GECKODRIVER_PATH"), firefox_profile=fp, firefox_binary=binary, capabilities=cap, options=options)
     try:
-        login = NetLog(driver).run_login(app.config['URL_PAGE'], app.config['USER_FIRST_NAME'],
-                                         app.config['USER_LAST_NAME'], app.config['SIRET'], app.config['PASSWORD'])
+        login = NetLog(driver).run_login(app.config['URL_PAGE'], app.config['USER_FIRST_NAME'],app.config['USER_LAST_NAME'], app.config['SIRET'], app.config['PASSWORD'])
 
     except ElementNotInteractableException as log_error:
         print('misy erreur')
