@@ -5,46 +5,47 @@ from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.firefox.firefox_profile import FirefoxProfile
 from selenium.common.exceptions import ElementNotInteractableException
+import os
 
 app = Flask(__name__)
 
 app.config.from_object('config')
-
-options = Options()
-options.add_argument('--headless')
 
 list_entreprise_gl = []
 list_doc_gl = []
 siren_gl = ''
 driver = None
 
+
 @app.route('/home')
 def index():
-    #initialise driver
+    # initialise driver
     global driver
 
     options = Options()
-    # options.add_argument('--headless')
+    options.add_argument('--headless')
 
     fp = webdriver.FirefoxProfile()
     fp.set_preference("browser.download.folderList", 2)
     fp.set_preference('browser.download.dir', app.config['PATH_FILE'])
-    fp.set_preference("browser.helperApps.neverAsk.saveToDisk"," application/pdf, attachment/pdf")
+    fp.set_preference("browser.helperApps.neverAsk.saveToDisk",
+                      " application/pdf, attachment/pdf")
     fp.set_preference("browser.download.manager.showWhenStarting", False)
     # fp.set_preference("browser.preferences.instantApply", True)
     # fp.set_preference("browser.helperApps.neverAsk.saveToDisk",
     #                   "text/plain, application/octet-stream, application/pdf, attachment/pdf, application/binary, text/csv, application/csv, application/excel, text/comma-separated-values, text/xml, application/xml")
     # fp.set_preference("browser.helperApps.alwaysAsk.force", False)
-    fp.set_preference( "pdfjs.disabled", True )
+    fp.set_preference("pdfjs.disabled", True)
 
     fp.set_preference("plugin.scan.Acrobat", "99.0")
     fp.set_preference("plugin.scan.plid.all", False)
 
     # with Display():
-    driver= webdriver.Firefox(firefox_profile=fp,options=options)
+    driver = webdriver.Firefox(executable_path=os.environ.get(
+        "GECKODRIVER_PATH"), firefox_profile=fp, options=options)
     try:
         login = NetLog(driver).run_login(app.config['URL_PAGE'], app.config['USER_FIRST_NAME'],
-                                    app.config['USER_LAST_NAME'], app.config['SIRET'], app.config['PASSWORD'])
+                                         app.config['USER_LAST_NAME'], app.config['SIRET'], app.config['PASSWORD'])
 
     except ElementNotInteractableException as log_error:
         print('misy erreur')
@@ -95,6 +96,7 @@ def download():
     print(type)
     NetLog(driver).initialise_downloadFile(doc, type)
     return 'mandeha down'
+
 
 @app.route('/logout')
 def logout():

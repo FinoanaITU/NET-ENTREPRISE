@@ -1,0 +1,7 @@
+env/
+*.pyc
+__pycache__
+fbapp/static/tmp/*.jpg
+geckodriver.log
+.cache/
+fbapp/tests/*.db
