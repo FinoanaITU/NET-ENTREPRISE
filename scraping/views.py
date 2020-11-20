@@ -14,6 +14,7 @@ from .utils.prod.chrome import chrome
 template_dir = os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 template_dir = os.path.join(template_dir, 'netEntrepriser\\scraping\\templates')
 
+print("ato---------------------------------------------------------------------------------")
 print(template_dir)
 
 app = Flask(__name__, template_folder=template_dir)
