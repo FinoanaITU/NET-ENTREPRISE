@@ -172,20 +172,23 @@ class NetLog():
 
     #document direct.
     def doc_urssaf(self,siren):
+        print("depart siren ----------------------------------")
+        print(siren)
         #click siren
         script = utilFunctions.script_link('a',siren)
         self.driver.execute_script(str(script), None)
-
+        print("vita click ----------------------------------")
         self.wait.until(EC.presence_of_element_located(
             (By.XPATH, '//*[@id="TdBDeclaUrssaf"]')))
         time.sleep(2)
-
+        print("document urssaf ----------------------------------")
         #find document urssaf
         element_table = utilFunctions.get_element_table(
             self.driver, BeautifulSoup, 'TdBDeclaUrssaf')
         all_doc = element_table.findAll('tr')
         list_doc = []
-
+        print("All doc  ----------------------------------")
+        print(all_doc)
         for doc in all_doc:
             stringDoc = str(doc)
             text = stringDoc.replace('"', "")
@@ -200,7 +203,8 @@ class NetLog():
                     'date_limite': date_limite.group(0)
                 }
                 list_doc.append(data)
-
+        print("list_doc  ----------------------------------")
+        print(list_doc)
         utilFunctions.get_el_by_xpath(
             self.driver, '/html/body/table/tbody/tr[1]/td/table/tbody/tr/td[1]/span/a').click()
         return list_doc
