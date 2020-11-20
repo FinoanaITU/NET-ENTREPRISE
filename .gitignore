@@ -5,3 +5,4 @@ fbapp/static/tmp/*.jpg
 geckodriver.log
 .cache/
 fbapp/tests/*.db
+debug.log
