@@ -1,8 +1,9 @@
 env/
 *.pyc
+*.log
 __pycache__
 fbapp/static/tmp/*.jpg
 geckodriver.log
+debug.log
 .cache/
 fbapp/tests/*.db
-debug.log

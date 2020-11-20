@@ -10,17 +10,8 @@ from .utils.prod.chrome import chrome
 #driver local
 #from .utils.local.chrome import chrome
 
-#config  template location 
-dir_local = os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
-template_dir = os.path.join(dir_local, 'netEntrepriser//scraping//templates')
-
-print("dir_local-----------------------------------------------------------------------------------")
-print(dir_local)
-print("template_dir---------------------------------------------------------------------------------")
-print(template_dir)
-
-app = Flask(__name__, template_folder=template_dir)
-
+app = Flask(__name__)
+app.config['EXPLAIN_TEMPLATE_LOADING'] = True
 app.config.from_object('config')
 
 list_entreprise_gl = []
@@ -32,6 +23,10 @@ driver = None
 @app.route('/home')
 def index():
     # initialise driver
+    print(app.instance_path)
+    filename = os.path.join(app.instance_path, 'templates')
+    print(filename)
+
     global driver
     driver = chrome.driver()
     try:
@@ -47,7 +42,7 @@ def index():
     list_services = []
     if login:
         list_services = NetLog(driver).list_services()
-    return render_template('dashboard.html ', listServices=list_services, services=True)
+    return render_template('dashboard.html', listServices=list_services, services=True)
 
 
 @app.route('/operation/<serviceName>')
