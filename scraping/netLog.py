@@ -1,6 +1,7 @@
 from typing import Counter
 from bs4.element import Script
 from selenium.common.exceptions import ElementNotInteractableException
+from selenium.common.exceptions import ElementClickInterceptedException
 
 from selenium.webdriver.common import service
 from .utils.utilFunctions import utilFunctions
@@ -29,11 +30,14 @@ class NetLog():
             self.driver,'//*[@id="masthead"]/div[1]/div/div/div[2]/div[1]').click()
         self.fill_acompt_login(userNom, userPrenom, siret,password)
 
-        if utilFunctions.find_exist(self.driver,'//*[@id="cn-accept-cookie"]'):
-            utilFunctions.click_element(utilFunctions, self.driver,'//*[@id="cn-accept-cookie"]')
+       
+        try:
+            utilFunctions.click_element(utilFunctions, self.driver, '//*[@id="validButtonConnexion"]')
+        except ElementClickInterceptedException:
+             if utilFunctions.find_exist(self.driver,'//*[@id="cn-accept-cookie"]'):
+                utilFunctions.click_element(utilFunctions, self.driver,'//*[@id="cn-accept-cookie"]')
 
-        utilFunctions.click_element(
-            utilFunctions, self.driver, '//*[@id="validButtonConnexion"]')
+        utilFunctions.click_element(utilFunctions, self.driver, '//*[@id="validButtonConnexion"]')
 
         return True
        
@@ -122,8 +126,11 @@ class NetLog():
         return services_list
 
     def list_entreprise(self,service):
-        if utilFunctions.find_exist(self.driver, '//*[@id="widget-base-de-co"]/div/div[1]'):
+        try:
             utilFunctions.get_el_by_xpath(self.driver, '//*[@id="widget-base-de-co"]/div/div[1]').click()
+        except ElementNotInteractableException:
+            print('no')
+
         #click sur DUCS
         click = utilFunctions.script_include('a','DUCS')
         self.driver.execute_script(str(click), None)
@@ -249,6 +256,7 @@ class NetLog():
         utilFunctions.get_el_by_xpath(
             self.driver, '/html/body/div[3]/div[2]/section[1]/div[3]/div[3]/div[2]/button').click()
         print(' tafa valider ----------')
+        time.sleep(2)
         if utilFunctions.get_el_by_xpath(self.driver, '/html/body/div[3]/div[2]/section[1]/div[3]/div[9]/div').is_displayed():
             print(' click modal ----------')
             utilFunctions.get_el_by_xpath(
@@ -259,3 +267,4 @@ class NetLog():
         print(' lancer down ----------')
         utilFunctions.get_el_by_xpath(self.driver,'/html/body/div[3]/div[2]/section[1]/div[3]/div[7]/div[2]/div/table/tbody/tr[1]/td[6]/a').click()
         print(' vita down ----------')     
+        

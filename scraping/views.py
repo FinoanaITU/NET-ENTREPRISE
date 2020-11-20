@@ -8,7 +8,7 @@ import os
 from .utils.prod.chrome import chrome
 
 #driver local
-#from .utils.local.chrome import chrome
+# from .utils.local.chrome import chrome
 
 app = Flask(__name__)
 app.config['EXPLAIN_TEMPLATE_LOADING'] = True
@@ -24,9 +24,10 @@ driver = None
 def index():
     # initialise driver
     print(app.instance_path)
-    
+    basedir = os.path.abspath(os.path.dirname(__file__))
+    print(basedir)
     global driver
-    driver = chrome.driver()
+    driver = chrome(basedir).driver()
     try:
         login = NetLog(driver).run_login(app.config['URL_PAGE'], app.config['USER_FIRST_NAME'],app.config['USER_LAST_NAME'], app.config['SIRET'], app.config['PASSWORD'])
 
@@ -83,7 +84,6 @@ def download():
 
 @app.route('/logout')
 def logout():
-    driver.close()
     driver.quit()
 
     return 'déconnecter'
