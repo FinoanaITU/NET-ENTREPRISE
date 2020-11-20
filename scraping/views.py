@@ -10,7 +10,13 @@ from .utils.prod.chrome import chrome
 #driver local
 #from .utils.local.chrome import chrome
 
-app = Flask(__name__)
+#config  template location 
+template_dir = os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+template_dir = os.path.join(template_dir, 'netEntrepriser\\scraping\\templates')
+
+print(template_dir)
+
+app = Flask(__name__, template_folder=template_dir)
 
 app.config.from_object('config')
 
@@ -22,9 +28,6 @@ driver = None
 
 @app.route('/home')
 def index():
-    filename = os.path.join(app.instance_path, 'templates', 'dashboard.html')
-    print(app.root_path)
-    print(filename)
     # initialise driver
     global driver
     driver = chrome.driver()
