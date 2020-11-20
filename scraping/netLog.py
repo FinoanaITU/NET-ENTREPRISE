@@ -174,10 +174,13 @@ class NetLog():
     def doc_urssaf(self,siren):
         print("depart siren ----------------------------------")
         print(siren)
+        print(self.driver.current_url)
         #click siren
         script = utilFunctions.script_link('a',siren)
+        print(script)
         self.driver.execute_script(str(script), None)
         print("vita click ----------------------------------")
+        print(self.driver.current_url)
         self.wait.until(EC.presence_of_element_located(
             (By.XPATH, '//*[@id="TdBDeclaUrssaf"]')))
         time.sleep(2)
