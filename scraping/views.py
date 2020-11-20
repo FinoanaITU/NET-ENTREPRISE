@@ -2,12 +2,13 @@ from flask import Flask, render_template, request, redirect
 from flask.helpers import url_for
 from .netLog import NetLog
 from selenium.common.exceptions import ElementNotInteractableException
+import os
 
 #driver prod
-from .utils.prod.chrome import chrome
+#from .utils.prod.chrome import chrome
 
 #driver local
-# from .utils.local.chrome import chrome
+from .utils.local.chrome import chrome
 
 app = Flask(__name__)
 
@@ -21,6 +22,9 @@ driver = None
 
 @app.route('/home')
 def index():
+    filename = os.path.join(app.instance_path, 'templates', 'dashboard.html')
+    print(app.root_path)
+    print(filename)
     # initialise driver
     global driver
     driver = chrome.driver()
