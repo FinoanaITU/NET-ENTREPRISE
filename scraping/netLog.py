@@ -128,7 +128,7 @@ class NetLog():
     def list_entreprise(self,service):
         try:
             utilFunctions.get_el_by_xpath(self.driver, '//*[@id="widget-base-de-co"]/div/div[1]').click()
-        except ElementNotInteractableException:
+        except ElementClickInterceptedException:
             print('no')
 
         #click sur DUCS
