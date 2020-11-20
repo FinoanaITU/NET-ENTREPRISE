@@ -24,9 +24,7 @@ driver = None
 def index():
     # initialise driver
     print(app.instance_path)
-    filename = os.path.join(app.instance_path, 'templates')
-    print(filename)
-
+    
     global driver
     driver = chrome.driver()
     try:
