@@ -11,10 +11,12 @@ from .utils.prod.chrome import chrome
 #from .utils.local.chrome import chrome
 
 #config  template location 
-template_dir = os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
-template_dir = os.path.join(template_dir, 'netEntrepriser\\scraping\\templates')
+dir_local = os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+template_dir = os.path.join(dir_local, 'netEntrepriser//scraping//templates')
 
-print("ato---------------------------------------------------------------------------------")
+print("dir_local-----------------------------------------------------------------------------------")
+print(dir_local)
+print("template_dir---------------------------------------------------------------------------------")
 print(template_dir)
 
 app = Flask(__name__, template_folder=template_dir)
