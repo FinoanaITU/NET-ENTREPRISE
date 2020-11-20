@@ -29,6 +29,9 @@ class NetLog():
             self.driver,'//*[@id="masthead"]/div[1]/div/div/div[2]/div[1]').click()
         self.fill_acompt_login(userNom, userPrenom, siret,password)
 
+        if utilFunctions.find_exist(self.driver,'//*[@id="cn-accept-cookie"]'):
+            utilFunctions.click_element(utilFunctions, self.driver,'//*[@id="cn-accept-cookie"]')
+
         utilFunctions.click_element(
             utilFunctions, self.driver, '//*[@id="validButtonConnexion"]')
 
@@ -55,7 +58,8 @@ class NetLog():
     
     def start_parcourt_to_urssaf(self):
         #click sur DUCS
-        self.find_and_click('//*[@id="carousel"]/div/div/div[16]')
+        click = utilFunctions.script_include('a','DUCS')
+        self.driver.execute_script(str(click), None)
         self.wait.until(EC.presence_of_all_elements_located(
             (By.XPATH, '//*[@id="AccrochageEFIEDIChoice"]')))
         time.sleep(5)
@@ -95,7 +99,8 @@ class NetLog():
         self.wait.until(EC.presence_of_element_located(
             (By.XPATH, '//*[@id="carousel"]/div/div/div[16]')))
         #click sur DUCS
-        self.find_and_click('//*[@id="carousel"]/div/div/div[16]')
+        click = utilFunctions.script_include('a','DUCS')
+        self.driver.execute_script(str(click), None)
 
         # self.wait.until(EC.presence_of_element_located(
         #     (By.XPATH, '//*[@id="AccrochageEFIEDIChoice"]')))
@@ -120,7 +125,8 @@ class NetLog():
         if utilFunctions.find_exist(self.driver, '//*[@id="widget-base-de-co"]/div/div[1]'):
             utilFunctions.get_el_by_xpath(self.driver, '//*[@id="widget-base-de-co"]/div/div[1]').click()
         #click sur DUCS
-        self.find_and_click('//*[@id="carousel"]/div/div/div[16]')
+        click = utilFunctions.script_include('a','DUCS')
+        self.driver.execute_script(str(click), None)
 
         self.wait.until(EC.presence_of_element_located(
             (By.XPATH, '//*[@id="AccrochageEFIEDIChoice"]')))

@@ -37,6 +37,11 @@ class utilFunctions():
 
         return script
 
+    def script_include(tag,textContent):
+        script = "var listLienPage = document.querySelectorAll('"+tag+"'); listLienPage.forEach(function(element) {if (element.textContent.includes('" + \
+            textContent+"')) {element.click()}})"
+        return script
+        
     def find_exist(driver,xpath):
         try:
             driver.find_element_by_xpath(xpath)
