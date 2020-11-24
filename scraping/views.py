@@ -5,10 +5,10 @@ from selenium.common.exceptions import ElementNotInteractableException
 import os
 
 #driver prod
-#from .utils.prod.chrome import chrome
+from .utils.prod.chrome import chrome
 
 #driver local
-from .utils.local.chrome import chrome
+#from .utils.local.chrome import chrome
 
 app = Flask(__name__)
 app.config['EXPLAIN_TEMPLATE_LOADING'] = True
