@@ -57,6 +57,7 @@ def listeServices(serviceName):
 def docUrssaf(siren):
     noDoc = False
     global newChoice_gl
+    newChoice_gl = False
     list_doc = NetLog(driver).doc_urssaf(siren, newChoice_gl)
     #check new siren choice
     for list in list_doc:
