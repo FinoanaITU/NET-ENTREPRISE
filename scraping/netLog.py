@@ -38,8 +38,6 @@ class NetLog():
         finally:
             utilFunctions.click_element(utilFunctions, self.driver, '//*[@id="validButtonConnexion"]')
 
-       
-
         return True
        
         
@@ -124,6 +122,9 @@ class NetLog():
                 if titre is not None and titre != 'Services':
                     services_list.append(titre)
         self.return_acceuil()
+        self.wait.until(EC.presence_of_element_located(
+            (By.XPATH, '//*[@id="carousel"]/div/div/div[16]')))
+
         return services_list
 
     def list_entreprise(self,service):
