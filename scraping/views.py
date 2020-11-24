@@ -5,10 +5,10 @@ from selenium.common.exceptions import ElementNotInteractableException
 import os
 
 #driver prod
-from .utils.prod.chrome import chrome
+#from .utils.prod.chrome import chrome
 
 #driver local
-#from .utils.local.chrome import chrome
+from .utils.local.chrome import chrome
 
 app = Flask(__name__)
 app.config['EXPLAIN_TEMPLATE_LOADING'] = True
@@ -18,7 +18,7 @@ list_entreprise_gl = []
 list_doc_gl = []
 siren_gl = ''
 driver = None
-
+newChoice_gl = False
 
 @app.route('/home')
 def index():
@@ -55,13 +55,26 @@ def listeServices(serviceName):
 
 @app.route('/doc_urssaf/<siren>')
 def docUrssaf(siren):
-    list_doc = NetLog(driver).doc_urssaf(siren)
+    noDoc = False
+    global newChoice_gl
+    list_doc = NetLog(driver).doc_urssaf(siren, newChoice_gl)
+    #check new siren choice
+    for list in list_doc:
+        if 'newChoice' in list:
+            newChoice_gl = True
+        else:
+            newChoice_gl = False
     if len(list_doc) != 0:
         global list_doc_gl
         global siren_gl
         siren_gl = siren
-        list_doc_gl = list_doc
-    return render_template('operation.html', listEntreprise=list_entreprise_gl, listeDoc=list_doc)
+        existDoc = 'noDoc' in list_doc[0]
+        if existDoc == False:
+            list_doc_gl = list_doc
+            noDoc = existDoc
+        else:
+            noDoc = existDoc
+    return render_template('operation.html', listEntreprise=list_entreprise_gl, listeDoc=list_doc, noDoc = noDoc,newChoice=newChoice_gl)
 
 
 @app.route('/to_urrsaf/<periode>')
@@ -87,3 +100,8 @@ def logout():
     driver.quit()
 
     return 'déconnecter'
+
+@app.route('/retour_choix_entreprise')
+def to_choix():
+    NetLog(driver).to_choix()
+    return render_template('operation.html', listEntreprise=list_entreprise_gl)

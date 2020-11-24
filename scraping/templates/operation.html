@@ -42,7 +42,7 @@
                     </div>
                 </div>
             </div>
-            {% if listeDoc != 0 %}
+            {% if listeDoc != 0 and newChoice == false %}
             <div class="col-md-6">
                 <div class="col-md-12">
                     <div class="card">
@@ -52,7 +52,7 @@
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table">
-                                    <thead class=" text-primary">
+                                    <thead class=" text-primary" {% if noDoc: %} style="display: none;" {% endif %}>
                                         <th>
                                             Période
                                         </th>
@@ -64,7 +64,12 @@
                                         </th>
                                     </thead>
                                     <tbody>
-                                        {% for doc in listeDoc %}
+                                        {% if noDoc: %}
+                                        <tr>
+                                            <td><span>Actuellement, il n'y a pas de déclaration à faire pour cet
+                                                    organisme.</span></td>
+                                        </tr>
+                                        {%else%} {% for doc in listeDoc %}
                                         <tr>
                                             <td>
                                                 <a href="{{ config['BASE_URL '] }}/to_urrsaf/{{ doc.periode}}">{{ doc.periode}}</a>
@@ -76,7 +81,7 @@
                                                 {{doc.date_limite}}
                                             </td>
                                         </tr>
-                                        {% endfor %}
+                                        {% endfor %} {% endif %}
                                     </tbody>
                                 </table>
                             </div>
@@ -109,7 +114,8 @@
                                 </div>
                                 <div class="row">
                                     <div class="update ml-auto mr-auto">
-                                        <button type="submit" class="btn btn-primary btn-round">Telecharger Document</button>
+                                        <button type="submit" class="btn btn-primary btn-round">Telecharger
+                                            Document</button>
                                     </div>
                                 </div>
                             </form>
@@ -121,5 +127,54 @@
             {% endif %}
         </div>
     </div>
+    {% if (listeDoc != 0) and (newChoice == true) %}
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class=" text-primary">
+                                    <th>
+                                        siren
+                                    </th>
+                                    <th>
+                                        raison_social
+                                    </th>
+                                </thead>
+                                <tbody>
+                                    {% for entreprise in listeDoc %}
+                                    <tr>
+                                        <td>
+                                            <a href="{{ config['BASE_URL '] }}/doc_urssaf/{{ entreprise.siren}}">{{ entreprise.siren}}</a>
+                                        </td>
+                                        <td>
+                                            {{entreprise.raison_social}}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="{{config['BASE_URL']}}/retour_choix_entreprise" type="button" class="btn btn-secondary">Fermer</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% block script %}
+    <script>
+        $('#exampleModal').modal('show');
+    </script>
+    {% endblock script %} {% endif %}
 </div>
 {% endblock %}

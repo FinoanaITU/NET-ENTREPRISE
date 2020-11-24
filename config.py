@@ -1,6 +1,6 @@
 import os
 
-URL_PAGE = "https://www.net-entreprises.fr/vos-declarations-en-ligne/crpcen/#lessentiel"
+URL_PAGE = "https://www.net-entreprises.fr/"
 
 SIRET = '75077863100010'
 USER_FIRST_NAME = 'dabou'

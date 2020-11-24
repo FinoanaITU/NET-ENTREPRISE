@@ -29,15 +29,16 @@ class NetLog():
         utilFunctions.get_el_by_xpath(
             self.driver,'//*[@id="masthead"]/div[1]/div/div/div[2]/div[1]').click()
         self.fill_acompt_login(userNom, userPrenom, siret,password)
-
        
         try:
             utilFunctions.click_element(utilFunctions, self.driver, '//*[@id="validButtonConnexion"]')
         except ElementClickInterceptedException:
              if utilFunctions.find_exist(self.driver,'//*[@id="cn-accept-cookie"]'):
                 utilFunctions.click_element(utilFunctions, self.driver,'//*[@id="cn-accept-cookie"]')
+        finally:
+            utilFunctions.click_element(utilFunctions, self.driver, '//*[@id="validButtonConnexion"]')
 
-        utilFunctions.click_element(utilFunctions, self.driver, '//*[@id="validButtonConnexion"]')
+       
 
         return True
        
@@ -148,22 +149,7 @@ class NetLog():
         time.sleep(2)
 
         #get all list entreprise
-        element_table = utilFunctions.get_element_table(self.driver, BeautifulSoup, 'sirenChoice')
-        all_entreprise = element_table.findAll('tr')
-        list_entreprise = []
-
-        for i,entreprise in enumerate(all_entreprise):
-            siren = re.search("(?<=\(')(.*)(?=\'\))", str(entreprise))
-            social = re.search("(?<=\</td>\s<td>)(.*)(?=\</td></tr>)", str(entreprise))
-            if siren is not None and social is not None:
-                data = {
-                    'siren': siren.group(0),
-                    'raison_social': social.group(0)
-                }
-                # print(data)
-                list_entreprise.append(data)
-        # if len(list_entreprise) != 0:
-        #     self.return_acceuil()
+        list_entreprise = self.find_list_entreprise('sirenChoice')
 
         return list_entreprise
 
@@ -171,46 +157,61 @@ class NetLog():
         self.find_and_click('//*[@id="label_trans_RetourMenu"]')
 
     #document direct.
-    def doc_urssaf(self,siren):
-        print("depart siren ----------------------------------")
-        print(siren)
-        print(self.driver.current_url)
-        #click siren
-        script = utilFunctions.script_link('a',siren)
-        print(script)
-        self.driver.execute_script(str(script), None)
-        print("vita click ----------------------------------")
-        print(self.driver.current_url)
-        self.wait.until(EC.presence_of_element_located(
-            (By.XPATH, '//*[@id="TdBDeclaUrssaf"]')))
-        time.sleep(2)
-        print("document urssaf ----------------------------------")
-        #find document urssaf
-        element_table = utilFunctions.get_element_table(
-            self.driver, BeautifulSoup, 'TdBDeclaUrssaf')
-        all_doc = element_table.findAll('tr')
-        list_doc = []
-        print("All doc  ----------------------------------")
-        print(all_doc)
-        for doc in all_doc:
-            stringDoc = str(doc)
-            text = stringDoc.replace('"', "")
-            textFinal = text.replace("'", "")
-            periode = re.search('(?<=\)>)(.*)(?=\<\/a><\/td>)', textFinal)
-            numero = re.search('(?<!\d)\d{18}(?!\d)', str(doc))
-            date_limite = re.search('(?<=contenuTableauPeriode>)(.*)(?=\<\/td><td class=contenuTableauPeriode>)', textFinal)
-            if periode is not None and numero is not None and date_limite is not None:
-                data = {
-                    'periode':periode.group(0),
-                    'numero': numero.group(0),
-                    'date_limite': date_limite.group(0)
-                }
-                list_doc.append(data)
-        print("list_doc  ----------------------------------")
-        print(list_doc)
-        utilFunctions.get_el_by_xpath(
-            self.driver, '/html/body/table/tbody/tr[1]/td/table/tbody/tr/td[1]/span/a').click()
-        return list_doc
+    def doc_urssaf(self,siren, afterChoice):
+        if self.driver != None :       
+             #click siren
+            script = utilFunctions.script_link('a',siren)
+            self.driver.execute_script(str(script), None)
+            list_doc = []
+
+            self.wait.until(EC.presence_of_all_elements_located(
+            (By.XPATH, '/html/body/table/tbody/tr[3]/td[2]')))
+            time.sleep(5)
+            #check si il n'y as pas de nouvaux choix siren
+            if utilFunctions.find_exist(self.driver,'//*[@id="siretChoice"]'):
+                list_doc = self.find_list_entreprise('siretChoice')
+                list_doc.append({'newChoice': True})
+                return list_doc
+            else:    
+                self.wait.until(EC.presence_of_element_located(
+                    (By.XPATH, '//*[@id="TdBDeclaUrssaf"]')))
+                time.sleep(2)
+                #find document urssaf
+                element_table = utilFunctions.get_element_table(
+                    self.driver, BeautifulSoup, 'TdBDeclaUrssaf')
+                all_doc = element_table.findAll('tr')
+                
+                for doc in all_doc:
+                    stringDoc = str(doc)
+                    text = stringDoc.replace('"', "")
+                    textFinal = text.replace("'", "")
+                    #pas de declaration 
+                    noDeclar = re.search('(?<=_pas_periode>)(.*)(?=\</span>)', textFinal)
+                    if noDeclar is not None:
+                        list_doc.append({'noDoc' : True})
+                    periode = re.search('(?<=\)>)(.*)(?=\<\/a><\/td>)', textFinal)
+                    numero = re.search('(?<!\d)\d{18}(?!\d)', str(doc))
+                    date_limite = re.search('(?<=contenuTableauPeriode>)(.*)(?=\<\/td><td class=contenuTableauPeriode>)', textFinal)
+                    if periode is not None and numero is not None and date_limite is not None:
+                        data = {
+                            'periode':periode.group(0),
+                            'numero': numero.group(0),
+                            'date_limite': date_limite.group(0)
+                        }
+                        list_doc.append(data)
+
+                utilFunctions.get_el_by_xpath(
+                    self.driver, '/html/body/table/tbody/tr[1]/td/table/tbody/tr/td[1]/span/a').click()
+                if afterChoice:
+                    self.wait.until(EC.presence_of_element_located(
+                        (By.XPATH, '/html/body/table/tbody/tr[1]/td/table/tbody/tr/td[1]/a[2]')))
+                    utilFunctions.get_el_by_xpath(
+                        self.driver, '/html/body/table/tbody/tr[1]/td/table/tbody/tr/td[1]/a[2]').click()
+
+                return list_doc
+        else:
+            time.sleep(2)
+            self.doc_urssaf(siren)
 
     def to_urssaf(self,periode,siren):
         #click siren
@@ -274,4 +275,25 @@ class NetLog():
         print(' lancer down ----------')
         utilFunctions.get_el_by_xpath(self.driver,'/html/body/div[3]/div[2]/section[1]/div[3]/div[7]/div[2]/div/table/tbody/tr[1]/td[6]/a').click()
         print(' vita down ----------')     
+    
+    def find_list_entreprise(self,nomTable):
+        #get all list entreprise
+        element_table = utilFunctions.get_element_table(self.driver, BeautifulSoup, nomTable)
+        all_entreprise = element_table.findAll('tr')
+        list_entreprise = []
         
+        for i,entreprise in enumerate(all_entreprise):
+            siren = re.search("(?<=\(')(.*)(?=\'\))", str(entreprise))
+            social = re.search("(?<=\</td>\s<td>)(.*)(?=\</td></tr>)", str(entreprise))
+            if siren is not None and social is not None:
+                data = {
+                    'siren': siren.group(0),
+                    'raison_social': social.group(0)
+                }
+                list_entreprise.append(data)
+                print(data)
+        return list_entreprise
+
+    def to_choix(self):
+        utilFunctions.get_el_by_xpath(
+            self.driver, '/html/body/table/tbody/tr[1]/td/table/tbody/tr/td[1]/a[2]').click()
