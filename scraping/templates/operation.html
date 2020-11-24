@@ -29,7 +29,7 @@
                                     {% for entreprise in listEntreprise %}
                                     <tr>
                                         <td>
-                                            <a href="{{ config['BASE_URL '] }}/doc_urssaf/{{ entreprise.siren}}">{{ entreprise.siren}}</a>
+                                            <a href="{{ config['BASE_URL '] }}/doc_urssaf?siren={{ entreprise.siren}}&&rscociale={{ entreprise.raison_social}}">{{ entreprise.siren}}</a>
                                         </td>
                                         <td>
                                             {{entreprise.raison_social}}
@@ -48,6 +48,7 @@
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title">URSSAF ILE DE FRANCE</h4>
+                            <p class="card-category">{{rs_sociale}}</p>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -72,7 +73,7 @@
                                         {%else%} {% for doc in listeDoc %}
                                         <tr>
                                             <td>
-                                                <a href="{{ config['BASE_URL '] }}/to_urrsaf/{{ doc.periode}}">{{ doc.periode}}</a>
+                                                <a href="{{ config['BASE_URL '] }}/to_urrsaf">{{ doc.periode}}</a>
                                             </td>
                                             <td>
                                                 {{doc.numero}}
@@ -153,7 +154,7 @@
                                     {% for entreprise in listeDoc %}
                                     <tr>
                                         <td>
-                                            <a href="{{ config['BASE_URL '] }}/doc_urssaf/{{ entreprise.siren}}">{{ entreprise.siren}}</a>
+                                            <a href="{{ config['BASE_URL '] }}/doc_urssaf?siren={{ entreprise.siren}}&&rscociale={{ entreprise.raison_social}}">{{ entreprise.siren}}</a>
                                         </td>
                                         <td>
                                             {{entreprise.raison_social}}
@@ -166,7 +167,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <a href="{{config['BASE_URL']}}/retour_choix_entreprise" type="button" class="btn btn-secondary">Fermer</a>
+                    <a href="{{ config['BASE_URL '] }}/retour_choix_entreprise" type="button" class="btn btn-secondary">Fermer</a>
                 </div>
             </div>
         </div>

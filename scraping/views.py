@@ -5,10 +5,10 @@ from selenium.common.exceptions import ElementNotInteractableException
 import os
 
 #driver prod
-from .utils.prod.chrome import chrome
+#from .utils.prod.chrome import chrome
 
 #driver local
-#from .utils.local.chrome import chrome
+from .utils.local.chrome import chrome
 
 app = Flask(__name__)
 app.config['EXPLAIN_TEMPLATE_LOADING'] = True
@@ -19,7 +19,7 @@ list_doc_gl = []
 siren_gl = ''
 driver = None
 newChoice_gl = False
-
+rs_sociale_gl =''
 @app.route('/home')
 def index():
     # initialise driver
@@ -53,11 +53,14 @@ def listeServices(serviceName):
     return render_template('operation.html', listEntreprise=list_entreprise, listeDoc=0)
 
 
-@app.route('/doc_urssaf/<siren>')
-def docUrssaf(siren):
+@app.route('/doc_urssaf')
+def docUrssaf():
+    siren = request.args.get('siren', None)
+    rs_sociale = request.args.get('rscociale', None)
     noDoc = False
     global newChoice_gl
-    newChoice_gl = False
+    global rs_sociale_gl
+    rs_sociale_gl = rs_sociale
     list_doc = NetLog(driver).doc_urssaf(siren, newChoice_gl)
     #check new siren choice
     for list in list_doc:
@@ -75,14 +78,14 @@ def docUrssaf(siren):
             noDoc = existDoc
         else:
             noDoc = existDoc
-    return render_template('operation.html', listEntreprise=list_entreprise_gl, listeDoc=list_doc, noDoc = noDoc,newChoice=newChoice_gl)
+    return render_template('operation.html', listEntreprise=list_entreprise_gl, listeDoc=list_doc, noDoc = noDoc,newChoice=newChoice_gl,rs_sociale=rs_sociale_gl)
 
 
 @app.route('/to_urrsaf/<periode>')
 def toUrssaf(periode):
     log_urssaf = NetLog(driver).to_urssaf(periode, siren_gl)
     if log_urssaf:
-        return render_template('operation.html', listEntreprise=list_entreprise_gl, listeDoc=list_doc_gl, urssaf_doc=periode)
+        return render_template('operation.html', listEntreprise=list_entreprise_gl, listeDoc=list_doc_gl, urssaf_doc=periode,rs_sociale=rs_sociale_gl)
 
 
 @app.route('/download', methods=['GET', 'POST'])

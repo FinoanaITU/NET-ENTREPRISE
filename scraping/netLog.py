@@ -204,14 +204,17 @@ class NetLog():
                     self.driver, '/html/body/table/tbody/tr[1]/td/table/tbody/tr/td[1]/span/a').click()
                 if afterChoice:
                     self.wait.until(EC.presence_of_element_located(
-                        (By.XPATH, '/html/body/table/tbody/tr[1]/td/table/tbody/tr/td[1]/a[2]')))
+                        (By.XPATH, '//*[@id="siretChoice"]')))
                     utilFunctions.get_el_by_xpath(
                         self.driver, '/html/body/table/tbody/tr[1]/td/table/tbody/tr/td[1]/a[2]').click()
 
+                self.wait.until(EC.presence_of_element_located(
+                    (By.XPATH, '//*[@id="sirenChoice"]')))
+                time.sleep(2)
                 return list_doc
         else:
             time.sleep(2)
-            self.doc_urssaf(siren)
+            self.doc_urssaf(siren,afterChoice)
 
     def to_urssaf(self,periode,siren):
         #click siren
@@ -291,7 +294,6 @@ class NetLog():
                     'raison_social': social.group(0)
                 }
                 list_entreprise.append(data)
-                print(data)
         return list_entreprise
 
     def to_choix(self):
