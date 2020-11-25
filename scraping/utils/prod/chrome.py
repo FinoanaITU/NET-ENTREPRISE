@@ -15,6 +15,6 @@ class chrome ():
         print(self.basedir+"/files")
         prefs = {"download.default_directory" : self.basedir+"/files"}
         chrome_options.add_experimental_option("prefs",prefs)
-        driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
+        return  webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
 
-        return driver
+        
