@@ -73,7 +73,7 @@
                                         {%else%} {% for doc in listeDoc %}
                                         <tr>
                                             <td>
-                                                <a href="{{ config['BASE_URL '] }}/to_urrsaf">{{ doc.periode}}</a>
+                                                <a href="{{ config['BASE_URL '] }}/to_urrsaf?periode={{doc.periode}}">{{ doc.periode }}</a>
                                             </td>
                                             <td>
                                                 {{doc.numero}}
@@ -89,41 +89,6 @@
                         </div>
                     </div>
                 </div>
-                {% if urssaf_doc: %}
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4 class="card-title">Operation Urssaf {{urssaf_doc}}</h4>
-                        </div>
-                        <div class="card-body">
-                            <form action="{{ config['BASE_URL '] }}/download" method="GET">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="document">Documents</label>
-                                        <select class="form-control" id="document" name="document">
-                                            <option>Demander une attestation</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="Types">Types</label>
-                                        <select class="form-control" id="Types" name="types">
-                                            <option>Attestation de Vigilance</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="update ml-auto mr-auto">
-                                        <button type="submit" class="btn btn-primary btn-round">Telecharger
-                                            Document</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                {% endif %}
             </div>
             {% endif %}
         </div>

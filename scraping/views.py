@@ -4,10 +4,10 @@ from .netLog import NetLog
 from selenium.common.exceptions import ElementNotInteractableException
 import os
 
-#driver prod
+# driver prod
 from .utils.prod.chrome import chrome
 
-#driver local
+# driver local
 #from .utils.local.chrome import chrome
 
 app = Flask(__name__)
@@ -19,7 +19,10 @@ list_doc_gl = []
 siren_gl = ''
 driver = None
 newChoice_gl = False
-rs_sociale_gl =''
+rs_sociale_gl = ''
+period_gl = None
+
+
 @app.route('/home')
 def index():
     # initialise driver
@@ -29,7 +32,8 @@ def index():
     global driver
     driver = chrome(basedir).driver()
     try:
-        login = NetLog(driver).run_login(app.config['URL_PAGE'], app.config['USER_FIRST_NAME'],app.config['USER_LAST_NAME'], app.config['SIRET'], app.config['PASSWORD'])
+        login = NetLog(driver).run_login(app.config['URL_PAGE'], app.config['USER_FIRST_NAME'],
+                                         app.config['USER_LAST_NAME'], app.config['SIRET'], app.config['PASSWORD'])
 
     except ElementNotInteractableException as log_error:
         print('misy erreur')
@@ -62,7 +66,7 @@ def docUrssaf():
     global rs_sociale_gl
     rs_sociale_gl = rs_sociale
     list_doc = NetLog(driver).doc_urssaf(siren, newChoice_gl)
-    #check new siren choice
+    # check new siren choice
     for list in list_doc:
         if 'newChoice' in list:
             newChoice_gl = True
@@ -78,14 +82,15 @@ def docUrssaf():
             noDoc = existDoc
         else:
             noDoc = existDoc
-    return render_template('operation.html', listEntreprise=list_entreprise_gl, listeDoc=list_doc, noDoc = noDoc,newChoice=newChoice_gl,rs_sociale=rs_sociale_gl)
+    return render_template('operation.html', listEntreprise=list_entreprise_gl, listeDoc=list_doc, noDoc=noDoc, newChoice=newChoice_gl, rs_sociale=rs_sociale_gl)
 
 
-@app.route('/to_urrsaf/<periode>')
-def toUrssaf(periode):
+@app.route('/to_urrsaf')
+def toUrssaf():
+    periode = request.args.get('periode', None)
     log_urssaf = NetLog(driver).to_urssaf(periode, siren_gl)
     if log_urssaf:
-        return render_template('operation.html', listEntreprise=list_entreprise_gl, listeDoc=list_doc_gl, urssaf_doc=periode,rs_sociale=rs_sociale_gl)
+        return render_template('download.html', urssaf_doc=periode, rs_sociale=rs_sociale_gl)
 
 
 @app.route('/download', methods=['GET', 'POST'])
@@ -104,6 +109,7 @@ def logout():
     driver.quit()
 
     return 'déconnecter'
+
 
 @app.route('/retour_choix_entreprise')
 def to_choix():

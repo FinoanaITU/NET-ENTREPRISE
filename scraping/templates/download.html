@@ -1,0 +1,60 @@
+{% extends 'base.html' %} {% block navList %}
+<li>
+    <a href="#">
+        <i class="nc-icon nc-settings-gear-65"></i>
+        <p>Operation</p>
+    </a>
+</li>
+<li class="active ">
+    <a href="#">
+        <i class="nc-icon nc-bag-16"></i>
+        <p>Documents</p>
+    </a>
+</li>
+{% endblock %} {% block content %}
+<div class="content">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card-body">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Operation Urssaf</h4>
+                                <p class="card-category">{{ rs_sociale }}</p>
+                                <p class="card-category">{{ urssaf_doc }}</p>
+                            </div>
+                            <div class="card-body">
+                                <form action="{{ config['BASE_URL '] }}/download" method="GET">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="document">Documents</label>
+                                            <select class="form-control" id="document" name="document">
+                                                <option>Demander une attestation</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="Types">Types</label>
+                                            <select class="form-control" id="Types" name="types">
+                                                <option>Attestation de Vigilance</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="update ml-auto mr-auto">
+                                            <button type="submit" class="btn btn-primary btn-round">Telecharger
+                                                Document</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

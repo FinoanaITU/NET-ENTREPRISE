@@ -111,7 +111,7 @@ class NetLog():
             lambda driver: utilFunctions.get_el_by_xpath(self.driver,'//*[@id="AccrochageEFIEDIChoice"]').is_displayed())
         time.sleep(2)
 
-        element_table = utilFunctions.get_element_table(self.driver, BeautifulSoup, 'AccrochageEFIEDIChoice')
+        element_table = utilFunctions.get_element_table(self.driver, BeautifulSoup, 'AccrochageEFIEDIChoice','id')
         services_lik = element_table.find_all('span', class_='label')
         services_list = []
         for service in services_lik:
@@ -179,7 +179,7 @@ class NetLog():
                 time.sleep(2)
                 #find document urssaf
                 element_table = utilFunctions.get_element_table(
-                    self.driver, BeautifulSoup, 'TdBDeclaUrssaf')
+                    self.driver, BeautifulSoup, 'TdBDeclaUrssaf','id')
                 all_doc = element_table.findAll('tr')
                 
                 for doc in all_doc:
@@ -229,13 +229,14 @@ class NetLog():
         #click periode
         script = utilFunctions.script_link('a', periode)
         self.driver.execute_script(str(script), None)
-        time.sleep(5)
-        # if EC.presence_of_element_located((By.XPATH, '/ html/body/div/div/table/tbody/tr[9]/td/img')):
-        #     self.wait.until(EC.presence_of_element_located(
-        #         (By.XPATH, '/html/body/div/div/table/tbody/tr[9]/td/img')))
-        #     print('misy continue------------------------------')
-        #     #click sur continuer
-        #     self.find_and_click('/html/body/div/div/table/tbody/tr[9]/td/img')
+        time.sleep(2)
+        if utilFunctions.find_exist(self.driver,'/ html/body/div/div/table/tbody/tr[9]/td/img'):
+            self.wait.until(EC.presence_of_element_located(
+                (By.XPATH, '/html/body/div/div/table/tbody/tr[9]/td/img')))
+            print('misy continue------------------------------')
+            #click sur continuer
+            self.find_and_click('/html/body/div/div/table/tbody/tr[9]/td/img')
+
         self.wait.until(EC.url_contains('www.declaration.urssaf.fr'))
         return True
 
@@ -273,16 +274,29 @@ class NetLog():
             print(' click modal ----------')
             utilFunctions.get_el_by_xpath(
                 self.driver, '/html/body/div[3]/div[2]/section[1]/div[3]/div[9]/div/div/div[3]/button[1]').click()
-            time.sleep(5)
+           
         print(' vita click modal ----------')
-        #find all element int table
-        print(' lancer down ----------')
-        utilFunctions.get_el_by_xpath(self.driver,'/html/body/div[3]/div[2]/section[1]/div[3]/div[7]/div[2]/div/table/tbody/tr[1]/td[6]/a').click()
-        print(' vita down ----------')     
-    
+        #find and download doc
+        self.wait.until(EC.invisibility_of_element_located(
+                (By.XPATH, '/html/body/div[3]/div[2]/section[1]/div[1]/div')))
+        self.download_file()
+            
+    def download_file(self):
+        #get all list entreprise
+        element_table = utilFunctions.get_element_table(self.driver, BeautifulSoup, 'row-border dt-responsive no-wrap table','class')
+        all_doc = element_table.findAll('tr')
+        for doc in all_doc:
+            tag = doc.findAll('td')
+            for text in tag:
+                content = text.contents
+                if "Vigilance" in content[0]:
+                    link = doc.find('a', href=True)
+                    self.driver.find_element_by_xpath('//a[@href="'+link['href']+'"]').click()
+        
+
     def find_list_entreprise(self,nomTable):
         #get all list entreprise
-        element_table = utilFunctions.get_element_table(self.driver, BeautifulSoup, nomTable)
+        element_table = utilFunctions.get_element_table(self.driver, BeautifulSoup, nomTable,'id')
         all_entreprise = element_table.findAll('tr')
         list_entreprise = []
         

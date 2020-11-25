@@ -23,11 +23,11 @@ class utilFunctions():
     def click_element(self,driver, xpath):
         self.get_el_by_xpath(driver,xpath).click()
 
-    def get_element_table(driver,BeautifulSoup,idTable):
+    def get_element_table(driver,BeautifulSoup,idTable,classHTML):
         html = driver.page_source
         soup = BeautifulSoup(html, 'html.parser')
         element_table = soup.find(
-            'table', attrs={'id': idTable})
+            'table', attrs={classHTML: idTable})
 
         return element_table
 
