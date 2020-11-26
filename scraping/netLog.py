@@ -156,7 +156,7 @@ class NetLog():
             return list_entreprise
         else:
             time.sleep(2)
-            self.list_entreprise(self,service)
+            self.list_entreprise(service)
 
 
     def return_acceuil(self):
@@ -222,7 +222,7 @@ class NetLog():
                 return list_doc
         else:
             time.sleep(2)
-            self.doc_urssaf(siren,afterChoice, siren_choice_gl)
+            self.doc_urssaf(afterChoice, siren_choice_gl)
 
     def to_urssaf(self,periode,siren, siren_choice):
         if self.driver != None :
@@ -260,7 +260,7 @@ class NetLog():
             return True
         else:
             time.sleep(2)
-            self.to_urssaf(self,periode,siren, siren_choice)
+            self.to_urssaf(periode,siren, siren_choice)
 
     def initialise_downloadFile(self,doc_name,doc_type):
         self.wait.until(EC.presence_of_element_located(
