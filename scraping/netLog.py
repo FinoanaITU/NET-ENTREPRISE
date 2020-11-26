@@ -305,6 +305,7 @@ class NetLog():
             
     def download_file(self):
         #get all list entreprise
+        print(' anaty down----------')
         element_table = utilFunctions.get_element_table(self.driver, BeautifulSoup, 'row-border dt-responsive no-wrap table','class')
         all_doc = element_table.findAll('tr')
         for doc in all_doc:
