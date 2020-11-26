@@ -21,7 +21,7 @@ driver = None
 newChoice_gl = False
 rs_sociale_gl = ''
 period_gl = None
-
+siren_choice_gl = None
 
 @app.route('/home')
 def index():
@@ -59,13 +59,17 @@ def listeServices(serviceName):
 
 @app.route('/doc_urssaf')
 def docUrssaf():
-    siren = request.args.get('siren', None)
     rs_sociale = request.args.get('rscociale', None)
     noDoc = False
     global newChoice_gl
     global rs_sociale_gl
+    global siren_choice_gl
+    siren = request.args.get('siren', None)
     rs_sociale_gl = rs_sociale
-    list_doc = NetLog(driver).doc_urssaf(siren, newChoice_gl)
+    siren_choice_gl =  request.args.get('sirenChoice', None)
+    print('siren_choice_gl------------------------')
+    print(siren_choice_gl)
+    list_doc = NetLog(driver).doc_urssaf(siren, newChoice_gl, siren_choice_gl)
     # check new siren choice
     for list in list_doc:
         if 'newChoice' in list:
@@ -82,13 +86,20 @@ def docUrssaf():
             noDoc = existDoc
         else:
             noDoc = existDoc
-    return render_template('operation.html', listEntreprise=list_entreprise_gl, listeDoc=list_doc, noDoc=noDoc, newChoice=newChoice_gl, rs_sociale=rs_sociale_gl)
+    return render_template('operation.html', listEntreprise=list_entreprise_gl, listeDoc=list_doc, noDoc=noDoc, newChoice=newChoice_gl, rs_sociale=rs_sociale_gl, siren_choice_gl=siren_choice_gl, last_siren=siren)
 
 
 @app.route('/to_urrsaf')
 def toUrssaf():
     periode = request.args.get('periode', None)
-    log_urssaf = NetLog(driver).to_urssaf(periode, siren_gl)
+    siren_choice =  request.args.get('lastSiren', None)
+    print('newChoice_gl------------------------')
+    print(newChoice_gl)
+    if newChoice_gl:
+        siren = siren_choice_gl
+    else:
+        siren = siren_gl
+    log_urssaf = NetLog(driver).to_urssaf(periode, siren, siren_choice)
     if log_urssaf:
         return render_template('download.html', urssaf_doc=periode, rs_sociale=rs_sociale_gl)
 
@@ -101,13 +112,13 @@ def download():
     print(doc)
     print(type)
     NetLog(driver).initialise_downloadFile(doc, type)
-    return 'mandeha down'
+    driver.get('https://ducs.net-entreprises.fr/com.netducsi.client.htmlhome/servlets/AccrochageEFIEDIChoiceOut.do')
+    return render_template('operation.html', listEntreprise=list_entreprise_gl, listeDoc=0)
 
 
 @app.route('/logout')
 def logout():
     driver.quit()
-
     return 'déconnecter'
 
 

@@ -47,7 +47,7 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">URSSAF ILE DE FRANCE</h4>
+                            <h4 class="card-title">Déclarations des périodes en cours</h4>
                             <p class="card-category">{{rs_sociale}}</p>
                         </div>
                         <div class="card-body">
@@ -72,9 +72,15 @@
                                         </tr>
                                         {%else%} {% for doc in listeDoc %}
                                         <tr>
+                                            {% if siren_choice_gl is not none %}
+                                            <td>
+                                                <a href="{{ config['BASE_URL '] }}/to_urrsaf?periode={{doc.periode}}&&lastSiren={{siren_choice_gl}}">{{ doc.periode }}</a>
+                                            </td>
+                                            {% else %}
                                             <td>
                                                 <a href="{{ config['BASE_URL '] }}/to_urrsaf?periode={{doc.periode}}">{{ doc.periode }}</a>
                                             </td>
+                                            {% endif %}
                                             <td>
                                                 {{doc.numero}}
                                             </td>
@@ -119,7 +125,7 @@
                                     {% for entreprise in listeDoc %}
                                     <tr>
                                         <td>
-                                            <a href="{{ config['BASE_URL '] }}/doc_urssaf?siren={{ entreprise.siren}}&&rscociale={{ entreprise.raison_social}}">{{ entreprise.siren}}</a>
+                                            <a href="{{ config['BASE_URL '] }}/doc_urssaf?siren={{ last_siren }}&&rscociale={{ entreprise.raison_social}}&&sirenChoice={{ entreprise.siren}}">{{ entreprise.siren}}</a>
                                         </td>
                                         <td>
                                             {{entreprise.raison_social}}

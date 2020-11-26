@@ -158,12 +158,14 @@ class NetLog():
         self.find_and_click('//*[@id="label_trans_RetourMenu"]')
 
     #document direct.
-    def doc_urssaf(self,siren, afterChoice):
+    def doc_urssaf(self,siren, afterChoice, siren_choice_gl):
         if self.driver != None :       
-             #click siren
+            list_doc = []
+            if afterChoice and siren_choice_gl != None:
+                siren = siren_choice_gl
+            #click siren
             script = utilFunctions.script_link('a',siren)
             self.driver.execute_script(str(script), None)
-            list_doc = []
 
             self.wait.until(EC.presence_of_all_elements_located(
             (By.XPATH, '/html/body/table/tbody/tr[3]/td[2]')))
@@ -217,11 +219,22 @@ class NetLog():
             time.sleep(2)
             self.doc_urssaf(siren,afterChoice)
 
-    def to_urssaf(self,periode,siren):
+    def to_urssaf(self,periode,siren, siren_choice):
         #click siren
+        print('sine global ------------------------------')
+        print(siren)
+        print('sine choix ------------------------------')
+        print(siren_choice)
         script = utilFunctions.script_link('a', siren)
         self.driver.execute_script(str(script), None)
-        
+
+        if siren_choice != None:
+            print('Ato ------------------------------')
+            self.wait.until(EC.presence_of_element_located(
+                (By.XPATH, '//*[@id="siretChoice"]')))
+            script = utilFunctions.script_link('a',siren_choice)
+            self.driver.execute_script(str(script), None)
+
         self.wait.until(EC.element_to_be_clickable(
             (By.XPATH, '/html/body/table/tbody/tr[3]/td[2]/div[8]/table/thead/tr/th[1]/span/a')))
         time.sleep(2)
