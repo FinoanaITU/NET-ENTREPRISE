@@ -128,31 +128,36 @@ class NetLog():
         return services_list
 
     def list_entreprise(self,service):
-        try:
-            utilFunctions.get_el_by_xpath(self.driver, '//*[@id="widget-base-de-co"]/div/div[1]').click()
-        except ElementClickInterceptedException:
-            print('no')
+        if self.driver != None :
+            try:
+                utilFunctions.get_el_by_xpath(self.driver, '//*[@id="widget-base-de-co"]/div/div[1]').click()
+            except ElementClickInterceptedException:
+                print('no')
 
-        #click sur DUCS
-        click = utilFunctions.script_include('a','DUCS')
-        self.driver.execute_script(str(click), None)
+            #click sur DUCS
+            click = utilFunctions.script_include('a','DUCS')
+            self.driver.execute_script(str(click), None)
 
-        self.wait.until(EC.presence_of_element_located(
-            (By.XPATH, '//*[@id="AccrochageEFIEDIChoice"]')))
-        time.sleep(2)
+            self.wait.until(EC.presence_of_element_located(
+                (By.XPATH, '//*[@id="AccrochageEFIEDIChoice"]')))
+            time.sleep(2)
 
-        #click sur services selectioner
-        script = utilFunctions.script_link('a',service)
-        self.driver.execute_script(str(script), None)
+            #click sur services selectioner
+            script = utilFunctions.script_link('a',service)
+            self.driver.execute_script(str(script), None)
 
-        self.wait.until(EC.presence_of_element_located(
-            (By.XPATH, '//*[@id="sirenChoice"]')))
-        time.sleep(2)
+            self.wait.until(EC.presence_of_element_located(
+                (By.XPATH, '//*[@id="sirenChoice"]')))
+            time.sleep(2)
 
-        #get all list entreprise
-        list_entreprise = self.find_list_entreprise('sirenChoice')
+            #get all list entreprise
+            list_entreprise = self.find_list_entreprise('sirenChoice')
 
-        return list_entreprise
+            return list_entreprise
+        else:
+            time.sleep(2)
+            self.list_entreprise(self,service)
+
 
     def return_acceuil(self):
         self.find_and_click('//*[@id="label_trans_RetourMenu"]')
@@ -217,41 +222,45 @@ class NetLog():
                 return list_doc
         else:
             time.sleep(2)
-            self.doc_urssaf(siren,afterChoice)
+            self.doc_urssaf(siren,afterChoice, siren_choice_gl)
 
     def to_urssaf(self,periode,siren, siren_choice):
-        #click siren
-        print('sine global ------------------------------')
-        print(siren)
-        print('sine choix ------------------------------')
-        print(siren_choice)
-        script = utilFunctions.script_link('a', siren)
-        self.driver.execute_script(str(script), None)
-
-        if siren_choice != None:
-            print('Ato ------------------------------')
-            self.wait.until(EC.presence_of_element_located(
-                (By.XPATH, '//*[@id="siretChoice"]')))
-            script = utilFunctions.script_link('a',siren_choice)
+        if self.driver != None :
+            #click siren
+            print('sine global ------------------------------')
+            print(siren)
+            print('sine choix ------------------------------')
+            print(siren_choice)
+            script = utilFunctions.script_link('a', siren)
             self.driver.execute_script(str(script), None)
 
-        self.wait.until(EC.element_to_be_clickable(
-            (By.XPATH, '/html/body/table/tbody/tr[3]/td[2]/div[8]/table/thead/tr/th[1]/span/a')))
-        time.sleep(2)
+            if siren_choice != None:
+                print('Ato ------------------------------')
+                self.wait.until(EC.presence_of_element_located(
+                    (By.XPATH, '//*[@id="siretChoice"]')))
+                script = utilFunctions.script_link('a',siren_choice)
+                self.driver.execute_script(str(script), None)
 
-        #click periode
-        script = utilFunctions.script_link('a', periode)
-        self.driver.execute_script(str(script), None)
-        time.sleep(2)
-        if utilFunctions.find_exist(self.driver,'/ html/body/div/div/table/tbody/tr[9]/td/img'):
-            self.wait.until(EC.presence_of_element_located(
-                (By.XPATH, '/html/body/div/div/table/tbody/tr[9]/td/img')))
-            print('misy continue------------------------------')
-            #click sur continuer
-            self.find_and_click('/html/body/div/div/table/tbody/tr[9]/td/img')
+            self.wait.until(EC.element_to_be_clickable(
+                (By.XPATH, '/html/body/table/tbody/tr[3]/td[2]/div[8]/table/thead/tr/th[1]/span/a')))
+            time.sleep(2)
 
-        self.wait.until(EC.url_contains('www.declaration.urssaf.fr'))
-        return True
+            #click periode
+            script = utilFunctions.script_link('a', periode)
+            self.driver.execute_script(str(script), None)
+            time.sleep(2)
+            if utilFunctions.find_exist(self.driver,'/ html/body/div/div/table/tbody/tr[9]/td/img'):
+                self.wait.until(EC.presence_of_element_located(
+                    (By.XPATH, '/html/body/div/div/table/tbody/tr[9]/td/img')))
+                print('misy continue------------------------------')
+                #click sur continuer
+                self.find_and_click('/html/body/div/div/table/tbody/tr[9]/td/img')
+
+            self.wait.until(EC.url_contains('www.declaration.urssaf.fr'))
+            return True
+        else:
+            time.sleep(2)
+            self.to_urssaf(self,periode,siren, siren_choice)
 
     def initialise_downloadFile(self,doc_name,doc_type):
         self.wait.until(EC.presence_of_element_located(
