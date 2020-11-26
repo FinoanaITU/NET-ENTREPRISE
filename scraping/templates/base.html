@@ -18,9 +18,17 @@
     <link href="../static/css/paper-dashboard.css?v=2.0.1" rel="stylesheet" />
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link href="../static/demo/demo.css" rel="stylesheet" />
+    <link href="../static/css/loader.css" rel="stylesheet" />
 </head>
 
 <body class="">
+    <div class="loader-wrapper" id="loader-3">
+        <div id="loader"></div>
+        <div id="loader"></div>
+        <div id="loader"></div>
+        <div id="loader"></div>
+        <div id="loader"></div>
+    </div>
     <div class="wrapper ">
         <div class="sidebar" data-color="white" data-active-color="danger">
             <div class="logo">
@@ -135,6 +143,11 @@
             // Javascript method's body can be found in static/static-for-demo/js/demo.js
             demo.initChartsPages();
         });
+    </script>
+    <script>
+        $('a').on('click', function() {
+            $('.loader-wrapper').css('display', 'inherit')
+        })
     </script>
     {% block script %} {% endblock script %}
 </body>

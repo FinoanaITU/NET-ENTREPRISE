@@ -1,12 +1,12 @@
 {% extends 'base.html' %} {% block navList %}
 <li>
-    <a href="#">
+    <a href="{{ config['BASE_URL '] }}/operation/serviceName">
         <i class="nc-icon nc-settings-gear-65"></i>
         <p>Operation</p>
     </a>
 </li>
 <li class="active ">
-    <a href="#">
+    <a class="download-doc" href="#">
         <i class="nc-icon nc-bag-16"></i>
         <p>Documents</p>
     </a>
@@ -44,7 +44,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="update ml-auto mr-auto">
-                                            <button type="submit" class="btn btn-primary btn-round">Telecharger
+                                            <button type="submit" id="telecharger-doc" class="btn btn-primary btn-round">Telecharger
                                                 Document</button>
                                         </div>
                                     </div>
@@ -57,4 +57,13 @@
         </div>
     </div>
 </div>
-{% endblock content %}
+{% block script %}
+<script>
+    $(document).ready(function() {
+        $('.download-doc').unbind()
+    });
+    $('#telecharger-doc').on('click', function() {
+        $('.loader-wrapper').css('display', 'inherit')
+    })
+</script>
+{% endblock script %} {% endblock content %}

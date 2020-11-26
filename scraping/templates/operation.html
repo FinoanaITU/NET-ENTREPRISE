@@ -1,6 +1,6 @@
 {% extends 'base.html' %} {% block navList %}
 <li class="active ">
-    <a href="#">
+    <a href="{{ config['BASE_URL '] }}/operation/serviceName">
         <i class="nc-icon nc-settings-gear-65"></i>
         <p>Operation</p>
     </a>
@@ -104,7 +104,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Choix de l'établissement</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -125,7 +125,7 @@
                                     {% for entreprise in listeDoc %}
                                     <tr>
                                         <td>
-                                            <a href="{{ config['BASE_URL '] }}/doc_urssaf?siren={{ last_siren }}&&rscociale={{ entreprise.raison_social}}&&sirenChoice={{ entreprise.siren}}">{{ entreprise.siren}}</a>
+                                            <a class="modal-choice" href="{{ config['BASE_URL '] }}/doc_urssaf?siren={{ last_siren }}&&rscociale={{ entreprise.raison_social}}&&sirenChoice={{ entreprise.siren}}">{{ entreprise.siren}}</a>
                                         </td>
                                         <td>
                                             {{entreprise.raison_social}}
@@ -146,7 +146,33 @@
     {% block script %}
     <script>
         $('#exampleModal').modal('show');
+        $('.modal-choice').on('click', function() {
+            $('#exampleModal').modal('hide');
+        })
     </script>
-    {% endblock script %} {% endif %}
+    {% if download: %}
+    <script>
+        $('#info-dow').modal('show');
+    </script>
+    {% endif %} {% endblock script %} {% endif %} {% if download: %}
+    <div class="modal fade" id="info-dow" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Info</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Téléchargement terminer
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
 </div>
 {% endblock %}
