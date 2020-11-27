@@ -222,7 +222,7 @@ class NetLog():
                 return list_doc
         else:
             time.sleep(2)
-            self.doc_urssaf(afterChoice, siren_choice_gl)
+            self.doc_urssaf(siren, afterChoice, siren_choice_gl)
 
     def to_urssaf(self,periode,siren, siren_choice):
         if self.driver != None :
