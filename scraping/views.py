@@ -33,10 +33,9 @@ def index():
     list_services = []
     if driver_gl == None:
         basedir = os.path.abspath(os.path.dirname(__file__))
-        driver = chrome(basedir).driver()
-        driver_gl = driver
+        driver_gl = chrome(basedir).driver()
         try:
-            login = NetLog(driver).run_login(app.config['URL_PAGE'], app.config['USER_FIRST_NAME'],
+            login = NetLog(driver_gl).run_login(app.config['URL_PAGE'], app.config['USER_FIRST_NAME'],
                                             app.config['USER_LAST_NAME'], app.config['SIRET'], app.config['PASSWORD'])
 
         except ElementNotInteractableException as log_error:
@@ -46,7 +45,7 @@ def index():
 
             return redirect(url_for('index'))
         if login:
-            list_services = NetLog(driver).list_services()
+            list_services = NetLog(driver_gl).list_services()
             list_services_gl = list_services
     elif driver_gl != None and len(list_services_gl) != 0 :
         list_services = list_services_gl
