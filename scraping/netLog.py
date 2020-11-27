@@ -263,20 +263,24 @@ class NetLog():
             self.to_urssaf(periode,siren, siren_choice)
 
     def initialise_downloadFile(self,doc_name,doc_type):
-        self.wait.until(EC.presence_of_element_located(
-            (By.XPATH, '//*[@id="navbar-blue"]')))
+        if self.driver != None:
+            self.wait.until(EC.presence_of_element_located(
+                (By.XPATH, '//*[@id="navbar-blue"]')))
 
-        #entrer dans document
-        script = utilFunctions.script_link('a', doc_name)
-        self.driver.execute_script(str(script), None)
-        print('tafa attestation click ----------')
-        time.sleep(2)
-        self.wait.until(EC.presence_of_element_located(
-                (By.XPATH, '/html/body/div[3]/div[2]/section[1]/h2')))
-        if utilFunctions.find_exist(self.driver,'/html/body/div[3]/div[2]/section[1]/div[3]/div[3]/div[2]/button'):
-            self.execut_download(doc_type)
+            #entrer dans document
+            script = utilFunctions.script_link('a', doc_name)
+            self.driver.execute_script(str(script), None)
+            print('tafa attestation click ----------')
+            time.sleep(2)
+            self.wait.until(EC.presence_of_element_located(
+                    (By.XPATH, '/html/body/div[3]/div[2]/section[1]/h2')))
+            if utilFunctions.find_exist(self.driver,'/html/body/div[3]/div[2]/section[1]/div[3]/div[3]/div[2]/button'):
+                self.execut_download(doc_type)
+            else:
+                utilFunctions.get_el_by_xpath(self.driver,'/html/body/div[3]/div[2]/section[1]/section/div[3]/div/button').click()
+                self.initialise_downloadFile(doc_name,doc_type)
         else:
-            utilFunctions.get_el_by_xpath(self.driver,'/html/body/div[3]/div[2]/section[1]/section/div[3]/div/button').click()
+            time.sleep(2)
             self.initialise_downloadFile(doc_name,doc_type)
         
     def execut_download(self,doc_type):
