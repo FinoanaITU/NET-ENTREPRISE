@@ -2,13 +2,14 @@ from flask import Flask, render_template, request, redirect
 from flask.helpers import url_for
 from .netLog import NetLog
 from selenium.common.exceptions import ElementNotInteractableException
+from .Impot import Impot
 import os
 
 # driver prod
-from .utils.prod.chrome import chrome
+#from .utils.prod.chrome import chrome
 
 # driver local
-#from .utils.local.chrome import chrome
+from .utils.local.chrome import chrome
 
 app = Flask(__name__)
 app.config['EXPLAIN_TEMPLATE_LOADING'] = True
@@ -25,6 +26,7 @@ siren_choice_gl = None
 list_services_gl = []
 serviceName_gl = None
 
+#for NET-ENTREPRISE
 @app.route('/home')
 def index():
     # initialise driver
@@ -35,8 +37,7 @@ def index():
         basedir = os.path.abspath(os.path.dirname(__file__))
         driver_gl = chrome(basedir).driver()
         try:
-            login = NetLog(driver_gl).run_login(app.config['URL_PAGE'], app.config['USER_FIRST_NAME'],
-                                            app.config['USER_LAST_NAME'], app.config['SIRET'], app.config['PASSWORD'])
+            login = NetLog(driver_gl).run_login(app.config['URL_PAGE'], app.config['USER_FIRST_NAME'],app.config['USER_LAST_NAME'], app.config['SIRET'], app.config['PASSWORD'])
 
         except ElementNotInteractableException as log_error:
             print('misy erreur')
@@ -139,3 +140,22 @@ def logout():
 def to_choix():
     NetLog(driver_gl).to_choix()
     return render_template('operation.html', listEntreprise=list_entreprise_gl, serviceName = serviceName_gl)
+
+#FOR IMPOT
+@app.route('/login_impot')
+def login_impot():
+    global driver_gl
+    login_check = False
+    if driver_gl == None:
+        basedir = os.path.abspath(os.path.dirname(__file__))
+        driver_gl = chrome(basedir).driver()
+        impot = Impot(driver_gl)
+        login_check = impot.connnect(app.config['URL_IMPOT'], app.config['EMAIL_IMPOT'], app.config['PASSWORD_IMPOT'])
+        if login_check:
+            impot.choix_dossier([3,3,4])
+            to_fiscale = impot.compte_fiscale()
+            print('FISCALE--------------------')
+            print(to_fiscale)
+            if to_fiscale:
+                impot.imprimer(334138591)
+    return str(login_check)

@@ -48,3 +48,13 @@ class utilFunctions():
         except NoSuchElementException:
             return False
         return True
+
+    def switch_one_tab(driver, dejaOpen):
+        tabOpen = driver.current_window_handle
+        dejaOpen.append(tabOpen)
+        All_tab = driver.window_handles
+        for tab in All_tab:
+            if tab not in dejaOpen:
+                driver.switch_to.window(tab)
+                break
+        return dejaOpen

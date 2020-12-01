@@ -8,7 +8,6 @@ from .utils.utilFunctions import utilFunctions
 import selenium.webdriver.support.ui as ui
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from selenium.webdriver.firefox.options import Options
 import time
 from bs4 import BeautifulSoup
 import re
@@ -22,7 +21,7 @@ class NetLog():
         
 
     def run_login(self, urlPage, userNom, userPrenom, siret, password):
-        self.connection_execut(urlPage)
+        self.driver.get(urlPage)
         self.wait.until(EC.presence_of_all_elements_located(
             (By.XPATH, '//*[@id="masthead"]/div[2]/div/div')))
         time.sleep(2)
@@ -42,8 +41,8 @@ class NetLog():
        
         
 
-    def connection_execut(self, urlPage):
-        self.driver.get(urlPage)
+    def connection_execut(driver, urlPage):
+        driver.get(urlPage)
 
     def fill_acompt_login(self, userNom, userPrenom, siret, password):
         utilFunctions.get_el_by_xpath(
