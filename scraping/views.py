@@ -154,8 +154,6 @@ def login_impot():
         if login_check:
             impot.choix_dossier([3,3,4])
             to_fiscale = impot.compte_fiscale()
-            print('FISCALE--------------------')
-            print(to_fiscale)
             if to_fiscale:
                 impot.imprimer(334138591)
     return str(login_check)
