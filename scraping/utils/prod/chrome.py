@@ -12,9 +12,9 @@ class chrome ():
         chrome_options.add_argument("--headless")
         chrome_options.add_argument("--disable-dev-shm-usage")
         chrome_options.add_argument("--no-sandbox")
-        print(self.basedir+"/files")
+        print(self.basedir)
         prefs = {
-            "download.default_directory" : self.basedir+"\\files",
+            "download.default_directory" : self.basedir,
              "download.prompt_for_download": False,
             "download.directory_upgrade": True,
             "plugins.always_open_pdf_externally": True
