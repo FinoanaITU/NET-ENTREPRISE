@@ -23,19 +23,18 @@ class NetLog():
     def run_login(self, urlPage, userNom, userPrenom, siret, password):
         self.driver.get(urlPage)
         self.wait.until(EC.presence_of_all_elements_located(
-            (By.XPATH, '//*[@id="masthead"]/div[2]/div/div')))
-        time.sleep(2)
+            (By.XPATH, '/html/body')))
+        if utilFunctions.find_exist(self.driver,'/html/body/div[5]/div'):
+            utilFunctions.click_element(utilFunctions,self.driver,'/html/body/div[5]/div/div[1]/p[3]/button[3]')
+
         utilFunctions.get_el_by_xpath(
-            self.driver,'//*[@id="masthead"]/div[1]/div/div/div[2]/div[1]').click()
+            self.driver,'/html/body/header/label[3]').click()
         self.fill_acompt_login(userNom, userPrenom, siret,password)
        
         try:
-            utilFunctions.click_element(utilFunctions, self.driver, '//*[@id="validButtonConnexion"]')
+            utilFunctions.click_element(utilFunctions, self.driver, '/html/body/div[2]/div/div[3]/div[2]/form/button')
         except ElementClickInterceptedException:
-             if utilFunctions.find_exist(self.driver,'//*[@id="cn-accept-cookie"]'):
-                utilFunctions.click_element(utilFunctions, self.driver,'//*[@id="cn-accept-cookie"]')
-        finally:
-            utilFunctions.click_element(utilFunctions, self.driver, '//*[@id="validButtonConnexion"]')
+             pass
 
         return True
        
@@ -46,13 +45,13 @@ class NetLog():
 
     def fill_acompt_login(self, userNom, userPrenom, siret, password):
         utilFunctions.get_el_by_xpath(
-            self.driver, '//*[@id="j_siret"]').send_keys(siret)
+            self.driver, '//*[@id="menu-login__siret"]').send_keys(siret)
         utilFunctions.get_el_by_xpath(
-            self.driver, '//*[@id="j_nom"]').send_keys(userNom)
+            self.driver, '//*[@id="menu-login__nom"]').send_keys(userNom)
         utilFunctions.get_el_by_xpath(
-            self.driver, '//*[@id="j_prenom"]').send_keys(userPrenom)
+            self.driver, '//*[@id="menu-login__prenom"]').send_keys(userPrenom)
         utilFunctions.get_el_by_xpath(
-            self.driver, '//*[@id="j_password"]').send_keys(password)
+            self.driver, '//*[@id="menu-login__password"]').send_keys(password)
 
     def find_and_click(self, xpathElement):
         utilFunctions.click_element(
@@ -128,10 +127,10 @@ class NetLog():
 
     def list_entreprise(self,service):
         if self.driver != None :
-            try:
-                utilFunctions.get_el_by_xpath(self.driver, '//*[@id="widget-base-de-co"]/div/div[1]').click()
-            except ElementClickInterceptedException:
-                print('no')
+            # try:
+            #     utilFunctions.get_el_by_xpath(self.driver, '//*[@id="widget-base-de-co"]/div/div[1]').click()
+            # except ElementClickInterceptedException:
+            #     print('no')
 
             #click sur DUCS
             click = utilFunctions.script_include('a','DUCS')
