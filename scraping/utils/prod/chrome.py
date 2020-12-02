@@ -13,6 +13,12 @@ class chrome ():
         chrome_options.add_argument("--disable-dev-shm-usage")
         chrome_options.add_argument("--no-sandbox")
         print(self.basedir)
+        if os.path.isdir(self.basedir):  
+            print("\nIt is a directory")  
+        elif os.path.isfile(self.basedir):  
+            print("\nIt is a normal file")  
+        else:  
+            print("It is a special file (socket, FIFO, device file)" )
         prefs = {
             "download.default_directory" : self.basedir,
              "download.prompt_for_download": False,
