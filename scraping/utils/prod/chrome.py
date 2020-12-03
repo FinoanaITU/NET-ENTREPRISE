@@ -11,7 +11,7 @@ class chrome ():
         chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
         chrome_options.add_argument("--headless")
         chrome_options.add_argument("--disable-dev-shm-usage")
-        # chrome_options.add_argument("--no-sandbox")
+        chrome_options.add_argument("--no-sandbox")
         print(self.basedir)
         if os.path.isdir(self.basedir):  
             print("\nIt is a directory")  
@@ -27,10 +27,11 @@ class chrome ():
             }
         chrome_options.add_experimental_option("prefs",prefs)
         driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
+        
         driver.command_executor._commands["send_command"] = ("POST", '/session/$sessionId/chromium/send_command')
         params = {'cmd': 'Page.setDownloadBehavior', 'params': {'behavior': 'allow', 'downloadPath': self.basedir}}
         command_result = driver.execute("send_command", params)
-
+        
         return driver
 
         
