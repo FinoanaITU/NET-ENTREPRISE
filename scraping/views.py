@@ -151,7 +151,7 @@ def login_impot():
     login_check = False
     if driver_gl == None:
         # basedir = S3Connect.sign_s3('test','pdf')
-        basedir = os.path.abspath(os.path.dirname(__file__))
+        basedir = os.path.dirname(__file__)
         # basedir = json.loads(s3ConnectLocal.sign_s3(app,'test','pdf'))
         print('URL ------------------------------------------')
         print(type(basedir))
