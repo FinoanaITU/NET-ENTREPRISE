@@ -28,7 +28,7 @@ class chrome ():
         chrome_options.add_experimental_option("prefs",prefs)
         driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
         driver.command_executor._commands["send_command"] = ("POST", '/session/$sessionId/chromium/send_command')
-        params = {'cmd': 'Page.setDownloadBehavior', 'params': {'behavior': 'allow', 'downloadPath': "D:\\Perso"}}
+        params = {'cmd': 'Page.setDownloadBehavior', 'params': {'behavior': 'allow', 'downloadPath': self.basedir}}
         command_result = driver.execute("send_command", params)
 
         return driver
