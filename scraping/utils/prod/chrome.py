@@ -21,7 +21,7 @@ class chrome ():
             print("It is a special file (socket, FIFO, device file)" )
         prefs = {
             "download.default_directory" : self.basedir,
-             "download.prompt_for_download": False,
+            "download.prompt_for_download": False,
             "download.directory_upgrade": True,
             "plugins.always_open_pdf_externally": True
             }
