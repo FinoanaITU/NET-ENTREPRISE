@@ -4,7 +4,7 @@ import boto3, botocore
 
 
 
-def sign_s3(self, file_name, file_type):
+def sign_s3(file_name, file_type):
     S3_BUCKET = os.environ.get('S3_BUCKET')
 
     s3 = boto3.client('s3')
