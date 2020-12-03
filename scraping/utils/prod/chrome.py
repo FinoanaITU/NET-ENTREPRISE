@@ -26,6 +26,11 @@ class chrome ():
             "plugins.always_open_pdf_externally": True
             }
         chrome_options.add_experimental_option("prefs",prefs)
-        return  webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
+        driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
+        driver.command_executor._commands["send_command"] = ("POST", '/session/$sessionId/chromium/send_command')
+        params = {'cmd': 'Page.setDownloadBehavior', 'params': {'behavior': 'allow', 'downloadPath': "D:\\Perso"}}
+        command_result = driver.execute("send_command", params)
+
+        return driver
 
         

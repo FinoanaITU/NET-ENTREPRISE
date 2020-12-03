@@ -1,9 +1,11 @@
+import json
 from flask import Flask, render_template, request, redirect
 from flask.helpers import url_for
 from .netLog import NetLog
 from selenium.common.exceptions import ElementNotInteractableException
 from .Impot import Impot
 from .utils.aws import S3Connect
+from .utils.aws import s3ConnectLocal
 import os
 
 # driver prod
@@ -148,11 +150,14 @@ def login_impot():
     global driver_gl
     login_check = False
     if driver_gl == None:
-        basedir = S3Connect.sign_s3('test','pdf')
+        # basedir = S3Connect.sign_s3('test','pdf')
+        basedir = os.path.abspath(os.path.dirname(__file__))
+        # basedir = json.loads(s3ConnectLocal.sign_s3(app,'test','pdf'))
         print('URL ------------------------------------------')
+        print(type(basedir))
         print(basedir)
         # basedir = os.path.abspath(os.path.dirname(__file__))
-        driver_gl = chrome(basedir['url']).driver()
+        driver_gl = chrome(basedir).driver()
         impot = Impot(driver_gl)
         login_check = impot.connnect(app.config['URL_IMPOT'], app.config['EMAIL_IMPOT'], app.config['PASSWORD_IMPOT'])
         if login_check:
