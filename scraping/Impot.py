@@ -1,6 +1,7 @@
 import re
 from typing import List
 from bs4 import BeautifulSoup, element
+from flask import json
 from selenium.common.exceptions import ElementClickInterceptedException, NoSuchElementException, UnexpectedAlertPresentException
 
 from selenium.webdriver.remote.webelement import WebElement
@@ -10,6 +11,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from .utils.utilFunctions import utilFunctions
 import time
+import requests
+from urllib3.exceptions import MaxRetryError
 
 class Impot:
 
@@ -75,15 +78,18 @@ class Impot:
         self.driver.execute_script(str(script), None)
         #
         self.wait_located_All_xpath('//*[@id="Formulaire"]')
-        
+        print('DEPART CLICK RADIO --------------------')
         try:
+            print('TRY --------------------')
             self.click_radio()
         except UnexpectedAlertPresentException:
             time.sleep(3)
+            print('except --------------------')
+            utilFunctions.click_element(utilFunctions,self.driver,'/html/body')
             self.click_radio()
-
-        time.sleep(2)
-        self.wait_located_All_xpath('//*[@id="attestation"]')
+        print('TAFA --------------------')
+        time.sleep(3)
+        # self.wait_located_All_xpath('//*[@id="attestation"]')
         
         return True
 
@@ -93,11 +99,13 @@ class Impot:
         utilFunctions.click_element(utilFunctions, self.driver, '//*[@id="boutons"]/table[2]/tbody/tr/td[2]/span')
 
     def imprimer(self,siren):
+        print('---------imprimer-------------------------')
+        time.sleep(2)
         script = utilFunctions.script_include('a','impression')
         self.driver.execute_script(str(script), None)
         All_tab = utilFunctions.switch_one_tab(self.driver, self.dejaOpenTab)
         time.sleep(2)
-        self.check_table(siren)
+        return self.check_table(siren)
 
     def check_table(self, siren):
         element_table = utilFunctions.get_element_table(self.driver, BeautifulSoup, 'tableau','class')
@@ -105,9 +113,26 @@ class Impot:
         sirenText = str(siren)
         doc_down = False
         link = None
+        compteur = 0
         for doc in all_doc:
-            if link is not None:
-                break
+            if link is not None and compteur == 1:
+                print('lien-----------------------------------------')
+                print(compteur)
+                data = {
+                        'url': 'https://cfspro.impots.gouv.fr/'+link['href'],
+                        'cookieList' : self.get_coockies()
+                    }
+                try:
+                    pass
+                    # self.driver.quit()
+                    # time.sleep(5)
+                    # s = self.set_session_cookie(data['cookieList'])
+                    # self.download_file(s, data['url'])
+                except MaxRetryError:
+                    pass
+                print('DATA TY -----------------------------------------')
+                print(data)
+                return data
             else:
                 tag = doc.findAll('td')
                 print('ATO 1----------------------------')
@@ -119,18 +144,14 @@ class Impot:
                         print('ATO 3----------------------------')
                         if self.check_doc_ready(img['src']):
                             link = doc.find('a', href=True)
+                            compteur += 1
                             break
                         else:
                             #lencer recursive
                             print('RECURSIVE ------')
                             time.sleep(5)
                             self.check_table(siren)
-        print('lien-----------------------------------------')
-        print(str(link['href']))
-        try:
-            self.driver.find_element_by_xpath('//a[@href="'+link['href']+'"]').click()
-        except NoSuchElementException:
-            pass
+        
                     
     
     def check_doc_ready(self,imgName):
@@ -139,3 +160,34 @@ class Impot:
             return True
         else:
             return False
+
+    def get_coockies(self):
+        cookiesList = []
+        i = 0
+        for selenuim_coockies in self.driver.get_cookies():
+            #cookie = requests.cookies.create_cookie(selenuim_coockies['name'], selenuim_coockies['value'])
+            data = {
+                'id':i,
+                'name': selenuim_coockies['name'],
+                'value': selenuim_coockies['value']
+            }
+            cookiesList.append(data)
+            i += 1
+        return cookiesList
+
+    def set_session_cookie(self,listCookie):
+        session = requests.Session()
+        for cookie in listCookie:
+            session.cookies.set_cookie(cookie)
+        return session
+    
+    def download_file(self,session, urlDown):
+        headers = {
+            "user-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36",
+            "Connection": "keep-alive"
+        }
+        with session.get(urlDown, stream=True, headers=headers) as r:
+            with open('D:\\PROJET\\vao.pdf','wb') as f:
+                for chunk in r.iter_content(4096):
+                    if chunk:
+                        f.write(chunk)

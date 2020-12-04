@@ -2,6 +2,7 @@ import json
 from flask import Flask, render_template, request, redirect
 from flask.helpers import url_for
 from .netLog import NetLog
+from flask import jsonify
 from selenium.common.exceptions import ElementNotInteractableException
 from .Impot import Impot
 from .utils.aws import S3Connect
@@ -9,10 +10,10 @@ from .utils.aws import s3ConnectLocal
 import os
 
 # driver prod
-from .utils.prod.chrome import chrome
+#from .utils.prod.chrome import chrome
 
 # driver local
-#from .utils.local.chrome import chrome
+from .utils.local.chrome import chrome
 
 app = Flask(__name__)
 app.config['EXPLAIN_TEMPLATE_LOADING'] = True
@@ -149,6 +150,7 @@ def to_choix():
 def login_impot():
     global driver_gl
     login_check = False
+    data = 'tsisy'
     if driver_gl == None:
         # basedir = S3Connect.sign_s3('test','pdf')
         basedir = os.path.dirname(__file__)
@@ -164,5 +166,5 @@ def login_impot():
             impot.choix_dossier([3,3,4])
             to_fiscale = impot.compte_fiscale()
             if to_fiscale:
-                impot.imprimer(334138591)
-    return str(login_check)
+                data = impot.imprimer(334138591)
+    return jsonify(data)
