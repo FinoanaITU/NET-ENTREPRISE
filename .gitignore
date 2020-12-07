@@ -2,6 +2,5 @@ env/
 *.pyc
 *.log
 __pycache__
-geckodriver.log
-debug.log
+*.log
 .cache/

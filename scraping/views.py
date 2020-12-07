@@ -146,8 +146,8 @@ def to_choix():
     return render_template('operation.html', listEntreprise=list_entreprise_gl, serviceName = serviceName_gl)
 
 #FOR IMPOT
-@app.route('/login_impot')
-def login_impot():
+@app.route('/login_impot/<siren>')
+def login_impot(siren):
     global driver_gl
     login_check = False
     data = 'tsisy'
@@ -163,8 +163,11 @@ def login_impot():
         impot = Impot(driver_gl)
         login_check = impot.connnect(app.config['URL_IMPOT'], app.config['EMAIL_IMPOT'], app.config['PASSWORD_IMPOT'])
         if login_check:
-            impot.choix_dossier([3,3,4])
-            to_fiscale = impot.compte_fiscale()
-            if to_fiscale:
-                data = impot.imprimer(334138591)
+            tabSiren = []
+            for nbr in siren:
+                print(nbr)
+                tabSiren.append(nbr)
+            print(tabSiren)
+            impot.choix_dossier(tabSiren)
+            data = impot.compte_fiscale(siren)
     return jsonify(data)

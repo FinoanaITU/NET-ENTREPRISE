@@ -20,6 +20,8 @@ class Impot:
         self.driver = driver
         self.wait = ui.WebDriverWait(self.driver, 5000)
         self.dejaOpenTab = []
+        self.compteurDown = 0
+        self.dataDown = []
 
     def wait_located_xpath(self,xpath):
         self.wait.until(EC.presence_of_element_located((By.XPATH, xpath)))
@@ -62,13 +64,13 @@ class Impot:
             time.sleep(2)
             utilFunctions.click_element(utilFunctions, self.driver,'//*[@id="chooserep"]/span/input')
     
-    def compte_fiscale(self):
+    def compte_fiscale(self, siren):
         self.wait_click_xpath('//*[@id="mes_serv"]/div[2]/ul/li[1]/a')
         try:
             utilFunctions.click_element(utilFunctions, self.driver,'//*[@id="mes_serv"]/div[2]/ul/li[1]/a')
         except ElementClickInterceptedException:
             time.sleep(2)
-            self.compte_fiscale()
+            self.compte_fiscale(siren)
             
         time.sleep(2)
         self.dejaOpenTab = utilFunctions.switch_one_tab(self.driver, self.dejaOpenTab)
@@ -83,15 +85,15 @@ class Impot:
             print('TRY --------------------')
             self.click_radio()
         except UnexpectedAlertPresentException:
-            time.sleep(3)
+            alert_obj = self.driver.switch_to.alert
+            alert_obj.accept()
             print('except --------------------')
             utilFunctions.click_element(utilFunctions,self.driver,'/html/body')
             self.click_radio()
         print('TAFA --------------------')
-        time.sleep(3)
-        # self.wait_located_All_xpath('//*[@id="attestation"]')
-        
-        return True
+        self.wait_located_All_xpath('//*[@id="attestation"]')
+        data = self.imprimer(siren)  
+        return data
 
     def click_radio(self):
         utilFunctions.click_element(utilFunctions, self.driver, '//*[@id="membreIS_groupe_non"]')
@@ -110,47 +112,42 @@ class Impot:
     def check_table(self, siren):
         element_table = utilFunctions.get_element_table(self.driver, BeautifulSoup, 'tableau','class')
         all_doc = element_table.findAll('tr')
-        sirenText = str(siren)
-        doc_down = False
         link = None
-        compteur = 0
         for doc in all_doc:
-            if link is not None and compteur == 1:
-                print('lien-----------------------------------------')
-                print(compteur)
-                data = {
-                        'url': 'https://cfspro.impots.gouv.fr/'+link['href'],
-                        'cookieList' : self.get_coockies()
-                    }
-                try:
-                    pass
-                    # self.driver.quit()
-                    # time.sleep(5)
-                    # s = self.set_session_cookie(data['cookieList'])
-                    # self.download_file(s, data['url'])
-                except MaxRetryError:
-                    pass
-                print('DATA TY -----------------------------------------')
-                print(data)
-                return data
-            else:
-                tag = doc.findAll('td')
-                print('ATO 1----------------------------')
-                for text in tag:
-                    content = text.contents
-                    print('ATO 2----------------------------')
-                    if sirenText in content[0]:
-                        img = doc.find('img')
-                        print('ATO 3----------------------------')
-                        if self.check_doc_ready(img['src']):
-                            link = doc.find('a', href=True)
-                            compteur += 1
-                            break
-                        else:
-                            #lencer recursive
-                            print('RECURSIVE ------')
-                            time.sleep(5)
-                            self.check_table(siren)
+            tag = doc.findAll('td')
+            print('ATO 1----------------------------')
+            for text in tag:
+                content = text.contents
+                print('ATO 2----------------------------')
+                if siren in content[0] and self.compteurDown == 0:
+                    img = doc.find('img')
+                    print('ATO 3----------------------------')
+                    print('---------compteur down = ', self.compteurDown)
+                    if self.check_doc_ready(img['src']):
+                        link = doc.find('a', href=True)
+                        print('lien-----------------------------------------')
+                        data = {
+                                'url': 'https://cfspro.impots.gouv.fr/'+link['href'],
+                                'cookieList' : self.get_coockies()
+                            }
+                        try:
+                            pass
+                            # self.driver.quit()
+                            # time.sleep(5)
+                            # s = self.set_session_cookie(data['cookieList'])
+                            # self.download_file(s, data['url'])
+                        except MaxRetryError:
+                            pass
+                        self.compteurDown = 1
+                        self.dataDown = data
+                    else:
+                        #lencer recursive
+                        print('RECURSIVE ------')
+                        time.sleep(5)
+                        self.check_table(siren)
+        print('DATA TY -----------------------------------------')
+        print(self.dataDown)
+        return self.dataDown
         
                     
     

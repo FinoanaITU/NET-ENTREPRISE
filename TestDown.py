@@ -1,6 +1,6 @@
 import requests
 
-data = requests.get('http://127.0.0.1:5000/login_impot')
+data = requests.get('http://127.0.0.1:5000/login_impot/334138591')
 dataJson = data.json()
 
 
@@ -18,12 +18,13 @@ def set_session_cookie(listCookie):
         return session
     
 def download_file(session, urlDown):
+    print('Debut Down')
     headers = {
         "user-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36",
         "Connection": "keep-alive"
     }
     with session.get(urlDown, stream=True, headers=headers) as r:
-        with open('D:\\PROJET\\Vaovao.pdf','wb') as f:
+        with open('D:\\PROJET\\334138591.pdf','wb') as f:
             for chunk in r.iter_content(4096):
                 if chunk:
                     f.write(chunk)
