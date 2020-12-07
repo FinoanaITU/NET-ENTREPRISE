@@ -142,11 +142,13 @@ class Impot:
                             pass
                         self.compteurDown = 1
                         self.dataDown = data
+                        break
                     else:
                         #lencer recursive
                         print('RECURSIVE ------')
                         time.sleep(5)
                         self.check_table(siren)
+                        break
         print('DATA TY -----------------------------------------')
         print(self.dataDown)
         return self.dataDown

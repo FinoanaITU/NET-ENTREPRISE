@@ -171,4 +171,5 @@ def login_impot(siren):
             impot.choix_dossier(tabSiren)
             data = impot.compte_fiscale(siren)
             driver_gl.quit()
+            driver_gl = None
     return jsonify(data)
