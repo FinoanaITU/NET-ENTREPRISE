@@ -2,7 +2,7 @@ import requests
 
 data = requests.get('http://127.0.0.1:5000/login_impot/334138591')
 dataJson = data.json()
-
+print(dataJson)
 
 def create_cookie_list(dataJson):
     cookieList = []

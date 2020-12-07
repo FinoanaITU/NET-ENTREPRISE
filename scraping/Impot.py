@@ -88,7 +88,6 @@ class Impot:
             alert_obj = self.driver.switch_to.alert
             alert_obj.accept()
             print('except --------------------')
-            utilFunctions.click_element(utilFunctions,self.driver,'/html/body')
             self.click_radio()
         print('TAFA --------------------')
         self.wait_located_All_xpath('//*[@id="attestation"]')
@@ -96,8 +95,11 @@ class Impot:
         return data
 
     def click_radio(self):
+        time.sleep(1)
         utilFunctions.click_element(utilFunctions, self.driver, '//*[@id="membreIS_groupe_non"]')
+        time.sleep(1)
         utilFunctions.click_element(utilFunctions, self.driver, '//*[@id="membreTVA_groupe_non"]')
+        time.sleep(1)
         utilFunctions.click_element(utilFunctions, self.driver, '//*[@id="boutons"]/table[2]/tbody/tr/td[2]/span')
 
     def imprimer(self,siren):
