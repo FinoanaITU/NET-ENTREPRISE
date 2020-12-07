@@ -1,6 +1,6 @@
 import requests
 
-data = requests.get('http://127.0.0.1:5000/login_impot/334138591')
+data = requests.get('https://sda-scraping.herokuapp.com/login_impot/334138591')
 dataJson = data.json()
 print(dataJson)
 
