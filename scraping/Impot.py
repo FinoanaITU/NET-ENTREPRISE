@@ -96,11 +96,12 @@ class Impot:
                 self.click_radio()
             print('TAFA --------------------')
             self.wait_located_All_xpath('//*[@id="attestation"]')
-            data = self.imprimer(siren)  
+            data = self.imprimer(siren)
             return data
         else:
             time.sleep(2)
             self.compte_fiscale(siren)
+        
 
     def click_radio(self):
         time.sleep(1)
@@ -124,50 +125,47 @@ class Impot:
             self.imprimer(siren)
 
     def check_table(self, siren):
-        if self.driver != None :
-            element_table = utilFunctions.get_element_table(self.driver, BeautifulSoup, 'tableau','class')
-            all_doc = element_table.findAll('tr')
-            link = None
-            for doc in all_doc:
-                tag = doc.findAll('td')
-                print('ATO 1----------------------------')
-                for text in tag:
-                    content = text.contents
-                    print('ATO 2----------------------------')
-                    if siren in content[0] and self.compteurDown == 0:
-                        img = doc.find('img')
-                        print('ATO 3----------------------------')
-                        print('---------compteur down = ', self.compteurDown)
-                        if self.check_doc_ready(img['src']):
-                            link = doc.find('a', href=True)
-                            print('lien-----------------------------------------')
-                            data = {
-                                    'url': 'https://cfspro.impots.gouv.fr/'+link['href'],
-                                    'cookieList' : self.get_coockies()
-                                }
-                            try:
-                                pass
-                                # self.driver.quit()
-                                # time.sleep(5)
-                                # s = self.set_session_cookie(data['cookieList'])
-                                # self.download_file(s, data['url'])
-                            except MaxRetryError:
-                                pass
-                            self.compteurDown = 1
-                            self.dataDown = data
-                            break
-                        else:
-                            #lencer recursive
-                            print('RECURSIVE ------')
-                            time.sleep(5)
-                            self.check_table(siren)
-                            break
-            print('DATA TY -----------------------------------------')
-            print(self.dataDown)
-            return self.dataDown
-        else:
-            time.sleep(2)
-            self.check_table(siren)
+        self.wait_located_All_xpath('/html/body/div[1]/table')
+        element_table = utilFunctions.get_element_table(self.driver, BeautifulSoup, 'tableau','class')
+        all_doc = element_table.findAll('tr')
+        link = None
+        for doc in all_doc:
+            tag = doc.findAll('td')
+            print('ATO 1----------------------------')
+            for text in tag:
+                content = text.contents
+                print('ATO 2----------------------------')
+                if siren in content[0] and self.compteurDown == 0:
+                    img = doc.find('img')
+                    print('ATO 3----------------------------')
+                    print('---------compteur down = ', self.compteurDown)
+                    if self.check_doc_ready(img['src']):
+                        link = doc.find('a', href=True)
+                        print('lien-----------------------------------------')
+                        data = {
+                                'url': 'https://cfspro.impots.gouv.fr/'+link['href'],
+                                'cookieList' : self.get_coockies()
+                            }
+                        try:
+                            pass
+                            # self.driver.quit()
+                            # time.sleep(5)
+                            # s = self.set_session_cookie(data['cookieList'])
+                            # self.download_file(s, data['url'])
+                        except MaxRetryError:
+                            pass
+                        self.compteurDown = 1
+                        self.dataDown = data
+                        break
+                    else:
+                        #lencer recursive
+                        print('RECURSIVE ------')
+                        time.sleep(5)
+                        self.check_table(siren)
+                        break
+        print('DATA TY -----------------------------------------')
+        print(self.dataDown)
+        return self.dataDown
         
                     
     
