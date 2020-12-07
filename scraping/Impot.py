@@ -64,6 +64,8 @@ class Impot:
             except ElementClickInterceptedException:
                 time.sleep(2)
                 utilFunctions.click_element(utilFunctions, self.driver,'//*[@id="chooserep"]/span/input')
+
+            return True
         else:
             time.sleep(2)
             self.choix_dossier(siren)
