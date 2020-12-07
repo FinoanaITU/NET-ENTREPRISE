@@ -30,7 +30,9 @@ siren_choice_gl = None
 list_services_gl = []
 serviceName_gl = None
 
-#for NET-ENTREPRISE
+# for NET-ENTREPRISE
+
+
 @app.route('/home')
 def index():
     # initialise driver
@@ -41,7 +43,8 @@ def index():
         basedir = os.path.abspath(os.path.dirname(__file__))
         driver_gl = chrome(basedir).driver()
         try:
-            login = NetLog(driver_gl).run_login(app.config['URL_PAGE'], app.config['USER_FIRST_NAME'],app.config['USER_LAST_NAME'], app.config['SIRET'], app.config['PASSWORD'])
+            login = NetLog(driver_gl).run_login(
+                app.config['URL_PAGE'], app.config['USER_FIRST_NAME'], app.config['USER_LAST_NAME'], app.config['SIRET'], app.config['PASSWORD'])
 
         except ElementNotInteractableException as log_error:
             print('misy erreur')
@@ -52,7 +55,7 @@ def index():
         if login:
             list_services = NetLog(driver_gl).list_services()
             list_services_gl = list_services
-    elif driver_gl != None and len(list_services_gl) != 0 :
+    elif driver_gl != None and len(list_services_gl) != 0:
         list_services = list_services_gl
         driver_gl.get('https://portail.net-entreprises.fr/priv/declarations')
 
@@ -63,16 +66,17 @@ def index():
 def listeServices(serviceName):
     global serviceName_gl
     if serviceName_gl == None:
-        serviceName_gl =  serviceName
+        serviceName_gl = serviceName
         list_entreprise = NetLog(driver_gl).list_entreprise(serviceName)
         if len(list_entreprise) != 0:
             global list_entreprise_gl
             list_entreprise_gl = list_entreprise
     else:
         list_entreprise = list_entreprise_gl
-        driver_gl.get('https://ducs.net-entreprises.fr/com.netducsi.client.htmlhome/servlets/AccrochageEFIEDIChoiceOut.do')
-        
-    return render_template('operation.html', listEntreprise=list_entreprise, listeDoc=0, serviceName = serviceName_gl)
+        driver_gl.get(
+            'https://ducs.net-entreprises.fr/com.netducsi.client.htmlhome/servlets/AccrochageEFIEDIChoiceOut.do')
+
+    return render_template('operation.html', listEntreprise=list_entreprise, listeDoc=0, serviceName=serviceName_gl)
 
 
 @app.route('/doc_urssaf')
@@ -84,10 +88,11 @@ def docUrssaf():
     global siren_choice_gl
     siren = request.args.get('siren', None)
     rs_sociale_gl = rs_sociale
-    siren_choice_gl =  request.args.get('sirenChoice', None)
+    siren_choice_gl = request.args.get('sirenChoice', None)
     print('siren_choice_gl------------------------')
     print(siren_choice_gl)
-    list_doc = NetLog(driver_gl).doc_urssaf(siren, newChoice_gl, siren_choice_gl)
+    list_doc = NetLog(driver_gl).doc_urssaf(
+        siren, newChoice_gl, siren_choice_gl)
     # check new siren choice
     for list in list_doc:
         if 'newChoice' in list:
@@ -104,13 +109,13 @@ def docUrssaf():
             noDoc = existDoc
         else:
             noDoc = existDoc
-    return render_template('operation.html', listEntreprise=list_entreprise_gl, listeDoc=list_doc, noDoc=noDoc, newChoice=newChoice_gl, rs_sociale=rs_sociale_gl, siren_choice_gl=siren_choice_gl, last_siren=siren, serviceName = serviceName_gl)
+    return render_template('operation.html', listEntreprise=list_entreprise_gl, listeDoc=list_doc, noDoc=noDoc, newChoice=newChoice_gl, rs_sociale=rs_sociale_gl, siren_choice_gl=siren_choice_gl, last_siren=siren, serviceName=serviceName_gl)
 
 
 @app.route('/to_urrsaf')
 def toUrssaf():
     periode = request.args.get('periode', None)
-    siren_choice =  request.args.get('lastSiren', None)
+    siren_choice = request.args.get('lastSiren', None)
     print('newChoice_gl------------------------')
     print(newChoice_gl)
     if newChoice_gl:
@@ -119,7 +124,7 @@ def toUrssaf():
         siren = siren_gl
     log_urssaf = NetLog(driver_gl).to_urssaf(periode, siren, siren_choice)
     if log_urssaf:
-        return render_template('download.html', urssaf_doc=periode, rs_sociale=rs_sociale_gl, serviceName = serviceName_gl)
+        return render_template('download.html', urssaf_doc=periode, rs_sociale=rs_sociale_gl, serviceName=serviceName_gl)
 
 
 @app.route('/download', methods=['GET', 'POST'])
@@ -130,22 +135,20 @@ def download():
     print(doc)
     print(type)
     NetLog(driver_gl).initialise_downloadFile(doc, type)
-    driver_gl.get('https://ducs.net-entreprises.fr/com.netducsi.client.htmlhome/servlets/AccrochageEFIEDIChoiceOut.do')
-    return render_template('operation.html', listEntreprise=list_entreprise_gl, listeDoc=0, serviceName = serviceName_gl, download = True)
-
-
-@app.route('/logout')
-def logout():
-    driver_gl.quit()
-    return 'déconnecter'
+    driver_gl.get(
+        'https://ducs.net-entreprises.fr/com.netducsi.client.htmlhome/servlets/AccrochageEFIEDIChoiceOut.do')
+    return render_template('operation.html', listEntreprise=list_entreprise_gl, listeDoc=0, serviceName=serviceName_gl, download=True)
 
 
 @app.route('/retour_choix_entreprise')
 def to_choix():
     NetLog(driver_gl).to_choix()
-    return render_template('operation.html', listEntreprise=list_entreprise_gl, serviceName = serviceName_gl)
+    return render_template('operation.html', listEntreprise=list_entreprise_gl, serviceName=serviceName_gl)
 
-#FOR IMPOT
+# FOR IMPOT
+# authentification to select dossier
+
+
 @app.route('/login_impot/<siren>')
 def login_impot(siren):
     global driver_gl
@@ -161,7 +164,8 @@ def login_impot(siren):
         # basedir = os.path.abspath(os.path.dirname(__file__))
         driver_gl = chrome(basedir).driver()
         impot = Impot(driver_gl)
-        login_check = impot.connnect(app.config['URL_IMPOT'], app.config['EMAIL_IMPOT'], app.config['PASSWORD_IMPOT'])
+        login_check = impot.connnect(
+            app.config['URL_IMPOT'], app.config['EMAIL_IMPOT'], app.config['PASSWORD_IMPOT'])
         if login_check:
             tabSiren = []
             for nbr in siren:
@@ -169,7 +173,19 @@ def login_impot(siren):
                 tabSiren.append(nbr)
             print(tabSiren)
             impot.choix_dossier(tabSiren)
-            data = impot.compte_fiscale(siren)
-            driver_gl.quit()
-            driver_gl = None
+        return redirect(url_for('get_data',siren=siren))
+
+
+@app.route('/get_data/<siren>')
+def get_data(siren):
+    global driver_gl
+    data = Impot(driver_gl).compte_fiscale(siren)
+    driver_gl.quit()
+    driver_gl = None
     return jsonify(data)
+
+
+@app.route('/logout')
+def logout():
+    driver_gl.quit()
+    return 'déconnecter'
