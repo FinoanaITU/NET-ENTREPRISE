@@ -45,54 +45,62 @@ class Impot:
         return True
     
     def choix_dossier(self, siren):
-        #click choix dossier
-        self.wait_located_All_xpath('//*[@id="LayerMenuPrincipal"]/li[1]/ul/li[1]/a')
-        script = utilFunctions.script_include('a','Choisir un dossier')
-        self.driver.execute_script(str(script), None)
-        #get all input to fill
-        self.wait_located_All_xpath('//*[@id="ins_contenu"]/table/tbody/tr[2]/td/form')
-        i = 0
-        for element in siren:
-            input = utilFunctions.get_el_by_xpath(self.driver,'//*[@id="siren'+str(i)+'"]')
-            input.send_keys(element)
-            i += 1
-        self.wait_click_xpath('//*[@id="chooserep"]/span/input')
-        time.sleep(1)
-        try:
-            utilFunctions.click_element(utilFunctions, self.driver,'//*[@id="chooserep"]/span/input')
-        except ElementClickInterceptedException:
+        if self.driver != None :
+            #click choix dossier
+            self.wait_located_All_xpath('//*[@id="LayerMenuPrincipal"]/li[1]/ul/li[1]/a')
+            script = utilFunctions.script_include('a','Choisir un dossier')
+            self.driver.execute_script(str(script), None)
+            #get all input to fill
+            self.wait_located_All_xpath('//*[@id="ins_contenu"]/table/tbody/tr[2]/td/form')
+            i = 0
+            for element in siren:
+                input = utilFunctions.get_el_by_xpath(self.driver,'//*[@id="siren'+str(i)+'"]')
+                input.send_keys(element)
+                i += 1
+            self.wait_click_xpath('//*[@id="chooserep"]/span/input')
+            time.sleep(1)
+            try:
+                utilFunctions.click_element(utilFunctions, self.driver,'//*[@id="chooserep"]/span/input')
+            except ElementClickInterceptedException:
+                time.sleep(2)
+                utilFunctions.click_element(utilFunctions, self.driver,'//*[@id="chooserep"]/span/input')
+        else:
             time.sleep(2)
-            utilFunctions.click_element(utilFunctions, self.driver,'//*[@id="chooserep"]/span/input')
+            self.choix_dossier(siren)
     
     def compte_fiscale(self, siren):
-        self.wait_click_xpath('//*[@id="mes_serv"]/div[2]/ul/li[1]/a')
-        try:
-            utilFunctions.click_element(utilFunctions, self.driver,'//*[@id="mes_serv"]/div[2]/ul/li[1]/a')
-        except ElementClickInterceptedException:
+        if self.driver != None :
+            self.wait_click_xpath('//*[@id="mes_serv"]/div[2]/ul/li[1]/a')
+            try:
+                utilFunctions.click_element(utilFunctions, self.driver,'//*[@id="mes_serv"]/div[2]/ul/li[1]/a')
+            except ElementClickInterceptedException:
+                time.sleep(2)
+                self.compte_fiscale(siren)
+                
+            time.sleep(2)
+            self.dejaOpenTab = utilFunctions.switch_one_tab(self.driver, self.dejaOpenTab)
+            #wait compte fiscale afficher
+            self.wait_located_xpath('//*[@id="chemin_de_fer"]/a')
+            script = utilFunctions.script_include('a','Attestation de Régularité Fiscale')
+            self.driver.execute_script(str(script), None)
+            #
+            self.wait_located_All_xpath('//*[@id="Formulaire"]')
+            print('DEPART CLICK RADIO --------------------')
+            try:
+                print('TRY --------------------')
+                self.click_radio()
+            except UnexpectedAlertPresentException:
+                alert_obj = self.driver.switch_to.alert
+                alert_obj.accept()
+                print('except --------------------')
+                self.click_radio()
+            print('TAFA --------------------')
+            self.wait_located_All_xpath('//*[@id="attestation"]')
+            data = self.imprimer(siren)  
+            return data
+        else:
             time.sleep(2)
             self.compte_fiscale(siren)
-            
-        time.sleep(2)
-        self.dejaOpenTab = utilFunctions.switch_one_tab(self.driver, self.dejaOpenTab)
-        #wait compte fiscale afficher
-        self.wait_located_xpath('//*[@id="chemin_de_fer"]/a')
-        script = utilFunctions.script_include('a','Attestation de Régularité Fiscale')
-        self.driver.execute_script(str(script), None)
-        #
-        self.wait_located_All_xpath('//*[@id="Formulaire"]')
-        print('DEPART CLICK RADIO --------------------')
-        try:
-            print('TRY --------------------')
-            self.click_radio()
-        except UnexpectedAlertPresentException:
-            alert_obj = self.driver.switch_to.alert
-            alert_obj.accept()
-            print('except --------------------')
-            self.click_radio()
-        print('TAFA --------------------')
-        self.wait_located_All_xpath('//*[@id="attestation"]')
-        data = self.imprimer(siren)  
-        return data
 
     def click_radio(self):
         time.sleep(1)
@@ -103,55 +111,63 @@ class Impot:
         utilFunctions.click_element(utilFunctions, self.driver, '//*[@id="boutons"]/table[2]/tbody/tr/td[2]/span')
 
     def imprimer(self,siren):
-        print('---------imprimer-------------------------')
-        time.sleep(2)
-        script = utilFunctions.script_include('a','impression')
-        self.driver.execute_script(str(script), None)
-        All_tab = utilFunctions.switch_one_tab(self.driver, self.dejaOpenTab)
-        time.sleep(2)
-        return self.check_table(siren)
+        if self.driver != None :
+            print('---------imprimer-------------------------')
+            time.sleep(2)
+            script = utilFunctions.script_include('a','impression')
+            self.driver.execute_script(str(script), None)
+            All_tab = utilFunctions.switch_one_tab(self.driver, self.dejaOpenTab)
+            time.sleep(2)
+            return self.check_table(siren)
+        else:
+            time.sleep(2)
+            self.imprimer(siren)
 
     def check_table(self, siren):
-        element_table = utilFunctions.get_element_table(self.driver, BeautifulSoup, 'tableau','class')
-        all_doc = element_table.findAll('tr')
-        link = None
-        for doc in all_doc:
-            tag = doc.findAll('td')
-            print('ATO 1----------------------------')
-            for text in tag:
-                content = text.contents
-                print('ATO 2----------------------------')
-                if siren in content[0] and self.compteurDown == 0:
-                    img = doc.find('img')
-                    print('ATO 3----------------------------')
-                    print('---------compteur down = ', self.compteurDown)
-                    if self.check_doc_ready(img['src']):
-                        link = doc.find('a', href=True)
-                        print('lien-----------------------------------------')
-                        data = {
-                                'url': 'https://cfspro.impots.gouv.fr/'+link['href'],
-                                'cookieList' : self.get_coockies()
-                            }
-                        try:
-                            pass
-                            # self.driver.quit()
-                            # time.sleep(5)
-                            # s = self.set_session_cookie(data['cookieList'])
-                            # self.download_file(s, data['url'])
-                        except MaxRetryError:
-                            pass
-                        self.compteurDown = 1
-                        self.dataDown = data
-                        break
-                    else:
-                        #lencer recursive
-                        print('RECURSIVE ------')
-                        time.sleep(5)
-                        self.check_table(siren)
-                        break
-        print('DATA TY -----------------------------------------')
-        print(self.dataDown)
-        return self.dataDown
+        if self.driver != None :
+            element_table = utilFunctions.get_element_table(self.driver, BeautifulSoup, 'tableau','class')
+            all_doc = element_table.findAll('tr')
+            link = None
+            for doc in all_doc:
+                tag = doc.findAll('td')
+                print('ATO 1----------------------------')
+                for text in tag:
+                    content = text.contents
+                    print('ATO 2----------------------------')
+                    if siren in content[0] and self.compteurDown == 0:
+                        img = doc.find('img')
+                        print('ATO 3----------------------------')
+                        print('---------compteur down = ', self.compteurDown)
+                        if self.check_doc_ready(img['src']):
+                            link = doc.find('a', href=True)
+                            print('lien-----------------------------------------')
+                            data = {
+                                    'url': 'https://cfspro.impots.gouv.fr/'+link['href'],
+                                    'cookieList' : self.get_coockies()
+                                }
+                            try:
+                                pass
+                                # self.driver.quit()
+                                # time.sleep(5)
+                                # s = self.set_session_cookie(data['cookieList'])
+                                # self.download_file(s, data['url'])
+                            except MaxRetryError:
+                                pass
+                            self.compteurDown = 1
+                            self.dataDown = data
+                            break
+                        else:
+                            #lencer recursive
+                            print('RECURSIVE ------')
+                            time.sleep(5)
+                            self.check_table(siren)
+                            break
+            print('DATA TY -----------------------------------------')
+            print(self.dataDown)
+            return self.dataDown
+        else:
+            time.sleep(2)
+            self.check_table(siren)
         
                     
     
