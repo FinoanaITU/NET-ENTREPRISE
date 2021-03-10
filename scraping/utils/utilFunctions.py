@@ -28,7 +28,6 @@ class utilFunctions():
         soup = BeautifulSoup(html, 'html.parser')
         element_table = soup.find(
             'table', attrs={classHTML: idTable})
-
         return element_table
 
     def script_link(tag,textContent):
@@ -41,6 +40,12 @@ class utilFunctions():
         script = "var listLienPage = document.querySelectorAll('"+tag+"'); listLienPage.forEach(function(element) {if (element.textContent.includes('" + \
             textContent+"')) {element.click()}})"
         return script
+        
+    def script_find_lien(titreMenu):
+        script = "var listLienPage = document.querySelectorAll('a'); listLienPage.forEach(function(element) {if (element.textContent.includes('"+ \
+            titreMenu+"')) {const regex = /voirDeclarationsTVA/g;var lien = element.href;var found = lien.match(regex);if(found !== null){element.click()}}})"
+        return script
+        
         
     def find_exist(driver,xpath):
         try:

@@ -1,20 +1,20 @@
 import json
 import time
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, jsonify, session
 from flask.helpers import url_for
 from .netLog import NetLog
-from flask import jsonify
 from selenium.common.exceptions import ElementNotInteractableException
 from .Impot import Impot
 from .utils.aws import S3Connect
 from .utils.aws import s3ConnectLocal
+
 import os
 
 # driver prod
-from .utils.prod.chrome import chrome
+# from .utils.prod.chrome import chrome
 
 # driver local
-#from .utils.local.chrome import chrome
+from .utils.local.chrome import chrome
 
 app = Flask(__name__)
 app.config['EXPLAIN_TEMPLATE_LOADING'] = True
@@ -23,7 +23,7 @@ app.config.from_object('config')
 list_entreprise_gl = []
 list_doc_gl = []
 siren_gl = ''
-driver_gl = None
+driver_gl = {}
 newChoice_gl = False
 rs_sociale_gl = ''
 period_gl = None
@@ -150,21 +150,27 @@ def to_choix():
 # authentification to select dossier
 
 
-@app.route('/login_impot/<siren>')
-def login_impot(siren):
+@app.route('/check_dossier/<siren>', methods=['POST'])
+def check_dossier(siren):
     global driver_gl
     login_check = False
     data = 'tsisy'
-    if driver_gl == None:
+    annee = request.json['annee']
+    mois = request.json['mois']
+    type = request.json['type']
+    print(driver_gl, "manomboka")
+    if siren not in driver_gl:
         # basedir = S3Connect.sign_s3('test','pdf')
-        basedir = os.path.dirname(__file__)
+        # basedir = os.path.dirname(__file__)
+        basedir = 'D:\\'
         # basedir = json.loads(s3ConnectLocal.sign_s3(app,'test','pdf'))
-        print('URL ------------------------------------------')
-        print(type(basedir))
-        print(basedir)
+        # print('URL ------------------------------------------')
+        # print(type(basedir))
+        # print(basedir)
         # basedir = os.path.abspath(os.path.dirname(__file__))
-        driver_gl = chrome(basedir).driver()
-        impot = Impot(driver_gl)
+        driver_gl[siren] = chrome(basedir).driver()
+        print(driver_gl, "anatiny")
+        impot = Impot(driver_gl[siren])
         login_check = impot.connnect(
             app.config['URL_IMPOT'], app.config['EMAIL_IMPOT'], app.config['PASSWORD_IMPOT'])
         if login_check:
@@ -174,13 +180,39 @@ def login_impot(siren):
                 tabSiren.append(nbr)
             print(tabSiren)
             impot.choix_dossier(tabSiren)
-        return redirect(url_for('get_data',siren=siren))
+        # return redirect(url_for('get_data',siren=siren))
+        data_credit_tva = {
+            'annee': annee,
+            'mois': mois,
+        }
+        return redirect(url_for('get_creditTVA',siren=siren,data=data_credit_tva))
+    else:
+        return jsonify({'erreur':"requette en cours..."})
 
+@app.route('/get_creditTVA/<siren>')
+def get_creditTVA(siren):
+    global driver_gl
+    impotVar = Impot(driver_gl[siren])
+    data = request.args.get('data',None)
+    jsonDat = json.loads(data.replace("'",'"'))
+    compteFiscale = impotVar.compte_fiscale(siren)
+    if compteFiscale:
+        credit_tva = impotVar.repporter_credit_tva(jsonDat)
+        quitWebDriver(driver_gl,siren)
+        print(driver_gl)
+        return jsonify({'credit_tva':credit_tva})
+    else:
+        quitWebDriver(driver_gl,siren)
+        return jsonify({'erreur':"une erreru c'est produit"})
 
+#recuper attestation fiscale
 @app.route('/get_data/<siren>')
 def get_data(siren):
     global driver_gl
-    data = Impot(driver_gl).compte_fiscale(siren)
+    impotVar = Impot(driver_gl)
+    compteFiscale = impotVar.compte_fiscale(siren)
+    if compteFiscale:
+        data = impotVar.attestation_fiscale(siren)
     driver_gl.quit()
     driver_gl = None
     return jsonify(data)
@@ -190,3 +222,8 @@ def get_data(siren):
 def logout():
     driver_gl.quit()
     return 'déconnecter'
+
+
+def quitWebDriver(driver_gl,siren):
+    driver_gl[siren].quit()
+    del driver_gl[siren]

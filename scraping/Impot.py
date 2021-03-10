@@ -82,28 +82,66 @@ class Impot:
             time.sleep(2)
             self.dejaOpenTab = utilFunctions.switch_one_tab(self.driver, self.dejaOpenTab)
             #wait compte fiscale afficher
-            self.wait_located_xpath('//*[@id="chemin_de_fer"]/a')
-            script = utilFunctions.script_include('a','Attestation de Régularité Fiscale')
-            self.driver.execute_script(str(script), None)
-            #
-            self.wait_located_All_xpath('//*[@id="Formulaire"]')
-            print('DEPART CLICK RADIO --------------------')
-            try:
-                print('TRY --------------------')
-                self.click_radio()
-            except UnexpectedAlertPresentException:
-                alert_obj = self.driver.switch_to.alert
-                alert_obj.accept()
-                print('except --------------------')
-                self.click_radio()
-            print('TAFA --------------------')
-            self.wait_located_All_xpath('//*[@id="attestation"]')
-            data = self.imprimer(siren)
-            return data
+            # self.wait_located_xpath('//*[@id="chemin_de_fer"]/a')
+            self.wait_located_xpath('//*[@id="racine"]')
+            return True
         else:
             time.sleep(2)
             self.compte_fiscale(siren)
         
+    def attestation_fiscale(self,siren):
+        script = utilFunctions.script_include('a','Attestation de Régularité Fiscale')
+        self.driver.execute_script(str(script), None)
+        #
+        self.wait_located_All_xpath('//*[@id="Formulaire"]')
+        print('DEPART CLICK RADIO --------------------')
+        try:
+            print('TRY --------------------')
+            self.click_radio()
+        except UnexpectedAlertPresentException:
+            alert_obj = self.driver.switch_to.alert
+            alert_obj.accept()
+            print('except --------------------')
+            self.click_radio()
+        print('TAFA --------------------')
+        self.wait_located_All_xpath('//*[@id="attestation"]')
+        data = self.imprimer(siren)
+        return data
+
+    def repporter_credit_tva(self,data):
+        #entrer dans declaration
+        # utilFunctions.get_el_by_xpath(self.driver,'//*[@id="acces_par_impot"]/ul/li[1]/ul/li[1]/span/a').click()
+        titreMenu = 'Déclarations'
+        script = utilFunctions.script_find_lien(titreMenu)
+        print(script)
+        self.driver.execute_script(str(script), None)
+
+        #choisir année dans declaration
+        self.wait_located_All_xpath('//*[@id="raccourcis"]')
+        print(data)
+        print(type(data),'type data')
+        script = utilFunctions.script_include('span','Année '+ str(data['annee']))
+        self.driver.execute_script(str(script), None)
+
+        #click contenue
+        script = utilFunctions.script_include('a', data['mois'] +' '+str(data['annee']))
+        self.driver.execute_script(str(script), None)
+
+        #recuperer valeur sur tablaux
+        self.wait_located_All_xpath('//*[@id="tva"]')
+        html = self.driver.page_source
+        soup = BeautifulSoup(html, 'html.parser')
+        td_child = soup.find("td", attrs={'class':'caseNum1'}, text='27')
+        print(type(td_child),'child type')
+        tr_parent = td_child.find_parents('tr', limit=1)
+        print(type(tr_parent),'parent type')
+        # all_td = tr_parent.findAll("td")
+        value = ''
+        for td in tr_parent:
+            td_contenant_value = td.find("td", attrs={'class':'donneeMontant'})
+            value = td_contenant_value.contents
+            print(value)
+        return value
 
     def click_radio(self):
         time.sleep(1)
