@@ -154,9 +154,6 @@ def to_choix():
 def check_dossier(siren):
     global driver_gl
     login_check = False
-    data = 'tsisy'
-    annee = request.json['annee']
-    mois = request.json['mois']
     type = request.json['type']
     print(driver_gl, "manomboka")
     if siren not in driver_gl:
@@ -181,29 +178,27 @@ def check_dossier(siren):
             print(tabSiren)
             impot.choix_dossier(tabSiren)
         # return redirect(url_for('get_data',siren=siren))
-        data_credit_tva = {
-            'annee': annee,
-            'mois': mois,
-        }
-        return redirect(url_for('get_creditTVA',siren=siren,data=data_credit_tva))
+        if type == 'credit_tva':
+            data_credit_tva = {
+                'annee': request.json['annee'],
+                'mois': request.json['mois'],
+            }
+            return redirect(url_for('get_creditTVA',siren=siren,data=data_credit_tva))
+        elif type == 'declaration_TVA':
+            dataFormulaire = request.json['dataFormulaire']
+            return redirect(url_for('declaration_TVA',siren=siren,data=dataFormulaire))
     else:
         return jsonify({'erreur':"requette en cours..."})
 
 @app.route('/get_creditTVA/<siren>')
 def get_creditTVA(siren):
-    global driver_gl
-    impotVar = Impot(driver_gl[siren])
-    data = request.args.get('data',None)
-    jsonDat = json.loads(data.replace("'",'"'))
-    compteFiscale = impotVar.compte_fiscale(siren)
-    if compteFiscale:
-        credit_tva = impotVar.repporter_credit_tva(jsonDat)
-        quitWebDriver(driver_gl,siren)
-        print(driver_gl)
-        return jsonify({'credit_tva':credit_tva})
-    else:
-        quitWebDriver(driver_gl,siren)
-        return jsonify({'erreur':"une erreru c'est produit"})
+    result =execut_action_compte(request,siren,'compte_fiscale','get_credit_tva')
+    return result
+
+@app.route('/declaration_TVA/<siren>')
+def declaration_TVA(siren):
+    result =execut_action_compte(request,siren,'TVA','declaration_tva')
+    return result
 
 #recuper attestation fiscale
 @app.route('/get_data/<siren>')
@@ -225,5 +220,22 @@ def logout():
 
 
 def quitWebDriver(driver_gl,siren):
-    driver_gl[siren].quit()
-    del driver_gl[siren]
+    # driver_gl[siren].quit()
+    # del driver_gl[siren]
+    pass
+
+
+def execut_action_compte(request,siren,typeCompte,action):
+    global driver_gl
+    impotVar = Impot(driver_gl[siren])
+    data = request.args.get('data',None)
+    jsonData = json.loads(data.replace("'",'"'))
+    compteAccess = impotVar.access_compte(typeCompte)
+    if compteAccess:
+        resultat = impotVar.repporter_credit_tva(jsonData) if action == 'get_credit_tva' else impotVar.declarer_tva(jsonData)
+        quitWebDriver(driver_gl,siren)
+        print(driver_gl)
+        return jsonify(resultat)
+    else:
+        quitWebDriver(driver_gl,siren)
+        return jsonify({'erreur':"une erreru c'est produit"})

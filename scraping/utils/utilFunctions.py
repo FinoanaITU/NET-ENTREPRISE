@@ -1,4 +1,5 @@
 import sys
+import time
 
 from selenium.common.exceptions import NoSuchElementException
 
@@ -41,9 +42,9 @@ class utilFunctions():
             textContent+"')) {element.click()}})"
         return script
         
-    def script_find_lien(titreMenu):
+    def script_find_lien(titreMenu,regex):
         script = "var listLienPage = document.querySelectorAll('a'); listLienPage.forEach(function(element) {if (element.textContent.includes('"+ \
-            titreMenu+"')) {const regex = /voirDeclarationsTVA/g;var lien = element.href;var found = lien.match(regex);if(found !== null){element.click()}}})"
+            titreMenu+"')) {const regex = "+regex+";var lien = element.href;var found = lien.match(regex);if(found !== null){element.click()}}})"
         return script
         
         
@@ -63,3 +64,11 @@ class utilFunctions():
                 driver.switch_to.window(tab)
                 break
         return dejaOpen
+
+    def remplire_input_by_id(self,driver,code):
+        for input in code:
+            print(type(input),'type')
+            print(input,'value')
+            inputElement = self.get_el_by_xpath(driver,'//*[@id="'+input['id']+'"]')
+            inputElement.send_keys(input['value'])
+            time.sleep(0.5)

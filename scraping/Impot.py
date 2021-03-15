@@ -70,25 +70,32 @@ class Impot:
             time.sleep(2)
             self.choix_dossier(siren)
     
-    def compte_fiscale(self, siren):
+    def access_compte(self, type):
         if self.driver != None :
             self.wait_click_xpath('//*[@id="mes_serv"]/div[2]/ul/li[1]/a')
             try:
-                utilFunctions.click_element(utilFunctions, self.driver,'//*[@id="mes_serv"]/div[2]/ul/li[1]/a')
+                if type == 'compte_fiscale':
+                    utilFunctions.click_element(utilFunctions, self.driver,'//*[@id="mes_serv"]/div[2]/ul/li[1]/a')
+                elif type == 'TVA':
+                    regex = '/afficherChoisirOCFI.*action=declarer/g'
+                    script = utilFunctions.script_find_lien('TVA',regex)
+                    self.driver.execute_script(str(script), None)
+
             except ElementClickInterceptedException:
                 time.sleep(2)
-                self.compte_fiscale(siren)
+                self.access_compte(type)
                 
             time.sleep(2)
             self.dejaOpenTab = utilFunctions.switch_one_tab(self.driver, self.dejaOpenTab)
             #wait compte fiscale afficher
             # self.wait_located_xpath('//*[@id="chemin_de_fer"]/a')
-            self.wait_located_xpath('//*[@id="racine"]')
+            self.wait_located_xpath('//*[@id="racine"]') if type == 'compte_fiscale' else self.wait_located_xpath('//*[@id="ins_contenu"]/form/table[1]')
             return True
         else:
             time.sleep(2)
-            self.compte_fiscale(siren)
-        
+            self.access_compte(type)
+
+
     def attestation_fiscale(self,siren):
         script = utilFunctions.script_include('a','Attestation de Régularité Fiscale')
         self.driver.execute_script(str(script), None)
@@ -108,11 +115,34 @@ class Impot:
         data = self.imprimer(siren)
         return data
 
+    def declarer_tva(self,dataFormulaire):
+        utilFunctions.click_element(utilFunctions, self.driver,'//*[@id="ins_contenu"]/form/table[2]/tbody/tr/td[2]/input')
+        time.sleep(1)
+        self.dejaOpenTab = utilFunctions.switch_one_tab(self.driver, self.dejaOpenTab)
+        self.wait_located_All_xpath('//*[@id="PeriodesPreCalculees"]/div[1]')
+        print(dataFormulaire)
+        if dataFormulaire['tva_type'] == 'ca3_mensuele':
+            script = utilFunctions.script_include('a',dataFormulaire['mois']+' '+dataFormulaire['annee'])
+            self.driver.execute_script(str(script), None)
+            self.wait_located_All_xpath('//*[@id="contentFormulaire"]')
+            utilFunctions.remplire_input_by_id(utilFunctions,self.driver,dataFormulaire['code'])
+        elif dataFormulaire['tva_type'] == 'ca3_trimestre':
+            textLien = 'er' if int(dataFormulaire['nbr_trimestre']) == 1 else 'ème'
+            script = utilFunctions.script_include('a',dataFormulaire['nbr_trimestre']+textLien+' trimestre '+dataFormulaire['annee'])
+            self.driver.execute_script(str(script), None)
+            utilFunctions.remplire_input_by_id(utilFunctions,self.driver,dataFormulaire['code'])
+        else:
+            script = utilFunctions.script_include('a',dataFormulaire['annee'])
+            self.driver.execute_script(str(script), None)
+            utilFunctions.remplire_input_by_id(utilFunctions,self.driver,dataFormulaire['code'])
+        return {'wawa':"wawa"}
+
     def repporter_credit_tva(self,data):
         #entrer dans declaration
         # utilFunctions.get_el_by_xpath(self.driver,'//*[@id="acces_par_impot"]/ul/li[1]/ul/li[1]/span/a').click()
         titreMenu = 'Déclarations'
-        script = utilFunctions.script_find_lien(titreMenu)
+        regex = '/voirDeclarationsTVA/g'
+        script = utilFunctions.script_find_lien(titreMenu,regex)
         print(script)
         self.driver.execute_script(str(script), None)
 
@@ -134,13 +164,16 @@ class Impot:
         td_child = soup.find("td", attrs={'class':'caseNum1'}, text='27')
         print(type(td_child),'child type')
         tr_parent = td_child.find_parents('tr', limit=1)
-        print(type(tr_parent),'parent type')
         # all_td = tr_parent.findAll("td")
-        value = ''
+        value = {}
         for td in tr_parent:
-            td_contenant_value = td.find("td", attrs={'class':'donneeMontant'})
-            value = td_contenant_value.contents
-            print(value)
+            td_credit_tva = td.find("td", attrs={'class':'donneeMontant'})
+            td_taxe_payer = td.find("td", attrs={'class':'donneeMontant txtEnValeurAlign2'})
+            value = {
+                'credit_tva': str(td_credit_tva.contents[0]) if str(td_credit_tva.contents[0]) != '\xa0\xa0' else '0' ,
+                'taxe_a_payer': str(td_taxe_payer.contents[0]) if str(td_taxe_payer.contents[0]) != '\xa0\xa0' else '0',
+            }
+            print(value, 'valiny')
         return value
 
     def click_radio(self):
